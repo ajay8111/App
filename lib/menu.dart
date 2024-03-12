@@ -66,7 +66,6 @@ class Menu extends StatelessWidget {
                       SizedBox(height: 30.0),
                       ElevatedButton(
                         onPressed: () {
-                          // Navigate to LoginScreen when "Mini Games" button is pressed
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => LoginPage()),
