@@ -1,0 +1,196 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/StartScreen.dart';
+
+
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      duration: Duration(seconds: 2),
+      vsync: this,
+    );
+
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    _animationController.forward();
+
+    // Navigate to the next screen after 4 seconds (including animation time)
+    Future.delayed(Duration(seconds: 4), () {
+      // Navigate to the next screen (replace the MaterialPageRoute with your route)
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => StartScreen()),
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 143, 97, 12),
+      body: Center(
+        child: FadeTransition(
+          opacity: _animation,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Replace 'YourBoardGameIcon.png' with your actual icon asset
+              Image.asset(
+                'assets/bingo.png',
+                width: 400,
+                height: 400,
+              ),
+              SizedBox(height: 20),
+             
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+page1 
+
+import 'package:flutter/material.dart';
+
+class Page1 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   title: GestureDetector(
+      //     onTap: () {
+      //       // Navigate to another page when the icon is tapped
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(builder: (context) => AnotherPage()),
+      //       );
+      //     },
+      //     child: Row(
+      //       children: [
+      //         Padding(
+      //           padding: const EdgeInsets.all(8.0),
+      //           child: CircleAvatar(
+      //             radius: 18,
+      //             backgroundImage: AssetImage('assets/icon_image.png'), // Replace with the actual path to your icon image
+      //           ),
+      //         ),
+      //         SizedBox(width: 8),
+      //         Text(
+      //           'Caption Level 1',
+      //           style: TextStyle(
+      //             fontSize: 16,
+      //             fontWeight: FontWeight.bold,
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/mainbackground.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 20),
+              Container(
+                padding: EdgeInsets.all(70),
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 226, 220, 220).withOpacity(0.7), // Set the background color and opacity
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        // Handle easy level button click
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.red,
+                        padding: EdgeInsets.symmetric(horizontal: 40),
+                        textStyle: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      child: Text('Easy'),
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Handle medium level button click
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.red,
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        textStyle: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      child: Text('Medium'),
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Handle hard level button click
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.red,
+                        padding: EdgeInsets.symmetric(horizontal: 40),
+                        textStyle: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      child: Text('Hard'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
