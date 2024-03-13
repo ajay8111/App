@@ -36,8 +36,8 @@ dependencies:
   flutter_blue: ^0.8.0
   permission_handler: ^11.0.1
   lottie: ^1.1.0
-  audioplayers: ^5.2.1
   flutter_bluetooth_serial: ^0.4.0
+  just_audio: ^0.9.36
   
   
 
@@ -154,6 +154,11 @@ flutter:
     - assets/start.json
     - assets/click.mp3
     - assets/mindspark.png
+    - assets/snake.jpg
+    - assets/brick.jpg
+    - assets/packman.jpg
+    - assets/dinogame.jpg
+    - assets/flappybird.jpg
         
 
 

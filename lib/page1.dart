@@ -65,11 +65,16 @@ class Page1 extends StatelessWidget {
                               MaterialPageRoute(builder: (context) => easy()),
                             );
                           },
-                          style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 39, 156, 240),
-                            padding: EdgeInsets.symmetric(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              Color.fromARGB(255, 39, 156, 240),
+                            ),
+                            padding: MaterialStateProperty.all(
+                              EdgeInsets.symmetric(
                                 horizontal:
-                                    MediaQuery.of(context).size.width * 0.1),
+                                    MediaQuery.of(context).size.width * 0.1,
+                              ),
+                            ),
                           ),
                           child: Text(
                             'Easy',
@@ -91,11 +96,16 @@ class Page1 extends StatelessWidget {
                               MaterialPageRoute(builder: (context) => medium()),
                             );
                           },
-                          style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 39, 156, 240),
-                            padding: EdgeInsets.symmetric(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              Color.fromARGB(255, 39, 156, 240),
+                            ),
+                            padding: MaterialStateProperty.all(
+                              EdgeInsets.symmetric(
                                 horizontal:
-                                    MediaQuery.of(context).size.width * 0.05),
+                                    MediaQuery.of(context).size.width * 0.05,
+                              ),
+                            ),
                           ),
                           child: Text(
                             'Medium',
@@ -117,11 +127,16 @@ class Page1 extends StatelessWidget {
                               MaterialPageRoute(builder: (context) => hard()),
                             );
                           },
-                          style: ElevatedButton.styleFrom(
-                            primary: Color.fromARGB(255, 39, 156, 240),
-                            padding: EdgeInsets.symmetric(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                              Color.fromARGB(255, 39, 156, 240),
+                            ),
+                            padding: MaterialStateProperty.all(
+                              EdgeInsets.symmetric(
                                 horizontal:
-                                    MediaQuery.of(context).size.width * 0.1),
+                                    MediaQuery.of(context).size.width * 0.1,
+                              ),
+                            ),
                           ),
                           child: Text(
                             'Hard',

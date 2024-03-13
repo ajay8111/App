@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:flutter_application_1/minigame/game.dart';
 import 'package:flutter_application_1/page1.dart';
-import 'package:flutter_application_1/login_screen.dart'; 
+import 'package:flutter_application_1/login_screen.dart';
 
 class Menu extends StatelessWidget {
+  final AudioPlayer audioPlayer = AudioPlayer();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +51,7 @@ class Menu extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () {
+                          playSound('assets/click.mp3');
                           // Navigate to Page1 when "Board Game" button is pressed
                           Navigator.push(
                             context,
@@ -66,9 +71,10 @@ class Menu extends StatelessWidget {
                       SizedBox(height: 30.0),
                       ElevatedButton(
                         onPressed: () {
+                          playSound('assets/click.mp3');
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => LoginPage()),
+                            MaterialPageRoute(builder: (context) => Gamepage()),
                           );
                         },
                         child: Text(
@@ -84,6 +90,7 @@ class Menu extends StatelessWidget {
                       SizedBox(height: 30.0),
                       ElevatedButton(
                         onPressed: () {
+                          playSound('assets/click.mp3');
                           // Navigate to LoginScreen when "Quiz Game" button is pressed
                           Navigator.push(
                             context,
@@ -109,5 +116,14 @@ class Menu extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> playSound(String assetPath) async {
+    try {
+      await audioPlayer.setAsset(assetPath);
+      await audioPlayer.play();
+    } catch (e) {
+      print("Error playing sound: $e");
+    }
   }
 }

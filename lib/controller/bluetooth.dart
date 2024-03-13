@@ -25,7 +25,7 @@ class _BluetoothScannerState extends State<BluetoothScanner> {
         ),
         centerTitle: true,
         backgroundColor: Colors.blue.shade900,
-         // Set app bar elevation to 0
+        // Set app bar elevation to 0
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -62,12 +62,13 @@ class _BluetoothScannerState extends State<BluetoothScanner> {
                     );
                   }
                 },
-                child: Text('Scan for Devices',
-                style: TextStyle(fontSize: 15,
-                fontFamily: 'ProtestRiot'),),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
-                  onPrimary: Colors.white,
+                child: Text(
+                  'Scan for Devices',
+                  style: TextStyle(fontSize: 15, fontFamily: 'ProtestRiot'),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
                 ),
               ),
               SizedBox(height: 20),
@@ -87,9 +88,11 @@ class _BluetoothScannerState extends State<BluetoothScanner> {
                     return Card(
                       color: Colors.white,
                       elevation: 4.0,
-                      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                      margin:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                       child: ListTile(
-                        title: Text(devices[index].name ?? 'Unknown Device'),
+                        title:
+                            Text(devices[index].name ?? 'Unknown Device'),
                         subtitle: Text(devices[index].id.id),
                         onTap: () {
                           connectToDevice(devices[index]);

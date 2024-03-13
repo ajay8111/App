@@ -1,6 +1,8 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/menu.dart';
+import 'package:just_audio/just_audio.dart';
+import 'dart:math';
+
+import 'menu.dart'; // Import your Menu screen
 
 class StartScreen extends StatefulWidget {
   @override
@@ -11,6 +13,7 @@ class _StartScreenState extends State<StartScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late List<Bubble> _bubbles;
+  late final AudioPlayer _audioPlayer; // Define AudioPlayer instance
 
   @override
   void initState() {
@@ -29,11 +32,15 @@ class _StartScreenState extends State<StartScreen>
       }
       setState(() {});
     });
+
+    _audioPlayer = AudioPlayer(); // Initialize AudioPlayer
+    _audioPlayer.setAsset('assets/click.mp3'); // Load the click sound
   }
 
   @override
   void dispose() {
     _animationController.dispose();
+    _audioPlayer.dispose(); // Dispose the AudioPlayer instance
     super.dispose();
   }
 
@@ -65,6 +72,7 @@ class _StartScreenState extends State<StartScreen>
                         SizedBox(height: constraints.maxHeight * 0.02),
                         GestureDetector(
                           onTap: () {
+                            _playSound(); // Play sound when tapped
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => Menu()),
@@ -95,6 +103,14 @@ class _StartScreenState extends State<StartScreen>
         ),
       ),
     );
+  }
+
+  void _playSound() async {
+    try {
+      await _audioPlayer.play();
+    } catch (e) {
+      print("Error playing sound: $e");
+    }
   }
 }
 

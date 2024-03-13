@@ -6,8 +6,8 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Login Page'),
-        backgroundColor: Colors.red, // Set AppBar background color to transparent
-        elevation: 0, // Remove app bar shadow
+        backgroundColor: Colors.red,
+        elevation: 0,
       ),
       body: Center(
         child: Padding(
@@ -41,18 +41,19 @@ class LoginPage extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   // Add your login logic here
+                  // For example: Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomePage()));
                 },
                 child: Text('Login'),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.green, // Background color
-                  onPrimary: const Color.fromARGB(255, 16, 0, 0), // Text color
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.green),
+                  foregroundColor: MaterialStateProperty.all(Color.fromARGB(255, 16, 0, 0)),
                 ),
               ),
               SizedBox(height: 10),
               TextButton(
                 onPressed: () {
                   // Add navigation to sign-up page
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
+                  // For example: Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
                 },
                 child: Text("New here? Please sign up"),
               )
