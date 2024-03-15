@@ -3,8 +3,11 @@ import 'package:flutter_application_1/controller/bluetooth.dart';
 import 'package:flutter_application_1/easy.dart';
 import 'package:flutter_application_1/hard.dart';
 import 'package:flutter_application_1/medium.dart';
+import 'package:just_audio/just_audio.dart';
 
 class Page1 extends StatelessWidget {
+  final AudioPlayer _audioPlayer = AudioPlayer(); // Define AudioPlayer instance
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,6 +63,7 @@ class Page1 extends StatelessWidget {
                       children: [
                         ElevatedButton(
                           onPressed: () {
+                            _playSound();
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => easy()),
@@ -91,9 +95,11 @@ class Page1 extends StatelessWidget {
                             height: MediaQuery.of(context).size.height * 0.02),
                         ElevatedButton(
                           onPressed: () {
+                            _playSound();
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => medium()),
+                              MaterialPageRoute(
+                                  builder: (context) => medium()),
                             );
                           },
                           style: ButtonStyle(
@@ -122,6 +128,7 @@ class Page1 extends StatelessWidget {
                             height: MediaQuery.of(context).size.height * 0.02),
                         ElevatedButton(
                           onPressed: () {
+                            _playSound();
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => hard()),
@@ -179,6 +186,7 @@ class Page1 extends StatelessWidget {
                       color: Color.fromARGB(255, 39, 156, 240),
                       size: MediaQuery.of(context).size.width * 0.08),
                   onPressed: () {
+                    _playSound(); // Play sound when back arrow button is pressed
                     Navigator.pop(context);
                   },
                 ),
@@ -208,6 +216,7 @@ class Page1 extends StatelessWidget {
                       color: Color.fromARGB(255, 39, 156, 240),
                       size: MediaQuery.of(context).size.width * 0.08),
                   onPressed: () {
+                    _playSound(); // Play sound when bluetooth icon button is pressed
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -221,5 +230,14 @@ class Page1 extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _playSound() async {
+    try {
+      await _audioPlayer.setAsset('assets/click.mp3'); // Load the click sound
+      await _audioPlayer.play();
+    } catch (e) {
+      print("Error playing sound: $e");
+    }
   }
 }

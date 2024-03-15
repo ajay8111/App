@@ -13,7 +13,8 @@ class _StartScreenState extends State<StartScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late List<Bubble> _bubbles;
-  late final AudioPlayer _audioPlayer; // Define AudioPlayer instance
+  late AudioPlayer _backgroundMusicPlayer; // Define AudioPlayer instance for background music
+  bool _isBackgroundMusicPlaying = true; // Track if background music is playing or not
 
   @override
   void initState() {
@@ -33,84 +34,138 @@ class _StartScreenState extends State<StartScreen>
       setState(() {});
     });
 
-    _audioPlayer = AudioPlayer(); // Initialize AudioPlayer
-    _audioPlayer.setAsset('assets/click.mp3'); // Load the click sound
+    // Initialize AudioPlayer for background music
+    _backgroundMusicPlayer = AudioPlayer();
+    _playBackgroundMusic(); // Play background music
   }
 
   @override
   void dispose() {
     _animationController.dispose();
-    _audioPlayer.dispose(); // Dispose the AudioPlayer instance
+    _backgroundMusicPlayer.dispose(); // Dispose the AudioPlayer instance for background music
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/underwaterbg.jpg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return Stack(
-              children: [
-                CustomPaint(
-                  painter: BubblePainter(bubbles: _bubbles),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/mindspark.png',  // Replace with your actual image path
-                          width: 300,
-                          height: 300,
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/underwaterbg.jpg'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return Stack(
+                  children: [
+                    CustomPaint(
+                      painter: BubblePainter(bubbles: _bubbles),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/mindspark.png',  // Replace with your actual image path
+                              width: 300,
+                              height: 300,
+                            ),
+                            SizedBox(height: constraints.maxHeight * 0.02),
+                            GestureDetector(
+                              onTap: () {
+                                _playSound(); // Play sound when tapped
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => Menu()),
+                                );
+                              },
+                              child: Image.asset(
+                                'assets/start.png',
+                                width: constraints.maxWidth * 0.5,
+                                height: constraints.maxWidth * 0.5,
+                              ),
+                            ),
+                            SizedBox(height: constraints.maxHeight * 0.05),
+                            Text(
+                              '',
+                              style: TextStyle(
+                                fontSize: constraints.maxWidth * 0.05,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                fontFamily: 'ProtestRiot',
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(height: constraints.maxHeight * 0.02),
-                        GestureDetector(
-                          onTap: () {
-                            _playSound(); // Play sound when tapped
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => Menu()),
-                            );
-                          },
-                          child: Image.asset(
-                            'assets/start.png',
-                            width: constraints.maxWidth * 0.5,
-                            height: constraints.maxWidth * 0.5,
-                          ),
-                        ),
-                        SizedBox(height: constraints.maxHeight * 0.05),
-                        Text(
-                          '',
-                          style: TextStyle(
-                            fontSize: constraints.maxWidth * 0.05,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            fontFamily: 'ProtestRiot',
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
+                );
+              },
+            ),
+          ),
+          Positioned(
+            bottom: 10,
+            left: 0,
+            right: 0,
+            child: AnimatedSwitcher(
+              duration: Duration(milliseconds: 300),
+              transitionBuilder: (child, animation) {
+                return ScaleTransition(
+                  scale: animation,
+                  child: child,
+                );
+              },
+              child: IconButton(
+                key: ValueKey<bool>(_isBackgroundMusicPlaying),
+                onPressed: _toggleBackgroundMusic,
+                icon: Icon(
+                  _isBackgroundMusicPlaying ? Icons.volume_up : Icons.volume_off,
+                  size: 40,
+                  color: Colors.white,
                 ),
-              ],
-            );
-          },
-        ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   void _playSound() async {
     try {
-      await _audioPlayer.play();
+      // Load and play the click sound
+      final clickPlayer = AudioPlayer();
+      await clickPlayer.setAsset('assets/click.mp3');
+      await clickPlayer.play();
+      await clickPlayer.dispose(); // Dispose the click sound player
     } catch (e) {
       print("Error playing sound: $e");
     }
+  }
+
+  void _playBackgroundMusic() async {
+    try {
+      // Load and play the background music
+      await _backgroundMusicPlayer.setAsset('assets/deep.mp3');
+      await _backgroundMusicPlayer.setLoopMode(LoopMode.one);
+      await _backgroundMusicPlayer.play();
+    } catch (e) {
+      print("Error playing background music: $e");
+    }
+  }
+
+  void _toggleBackgroundMusic() async {
+    if (_isBackgroundMusicPlaying) {
+      await _backgroundMusicPlayer.pause(); // Pause background music
+    } else {
+      await _backgroundMusicPlayer.play(); // Resume background music
+    }
+    setState(() {
+      _isBackgroundMusicPlaying = !_isBackgroundMusicPlaying; // Toggle the state
+    });
   }
 }
 
@@ -158,4 +213,10 @@ class BubblePainter extends CustomPainter {
   bool shouldRepaint(CustomPainter oldDelegate) {
     return true;
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: StartScreen(),
+  ));
 }
