@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/minigame/snake.dart';
 
 class AppInfo {
-  
   final String subtitle;
   final String imagePath; // Add imagePath property
 
   AppInfo({
-   
     required this.subtitle,
     required this.imagePath,
   });
@@ -16,27 +15,22 @@ class AppInfo {
 class Gamepage extends StatelessWidget {
   final List<AppInfo> apps = [
     AppInfo(
-      
       subtitle: 'Snake Lite',
       imagePath: 'assets/snake.jpg', // Replace with your image path
     ),
     AppInfo(
-      
       subtitle: 'Block Blast',
       imagePath: 'assets/brick.jpg', // Replace with your image path
     ),
     AppInfo(
-      
       subtitle: 'Packman',
       imagePath: 'assets/packman.jpg', // Replace with your image path
     ),
     AppInfo(
-      
       subtitle: 'Dino Game',
       imagePath: 'assets/dinogame.jpg', // Replace with your image path
     ),
     AppInfo(
-     
       subtitle: 'Flappy Bird',
       imagePath: 'assets/flappybird.jpg', // Replace with your image path
     ),
@@ -125,7 +119,14 @@ class _HorizontalAppContainerListState
                       child: AppContainer(
                         appInfo: appInfo,
                         onTap: () {
-                          print('tapped!');
+                          if (appInfo.subtitle == 'Snake Lite') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SnakeGamePage(),
+                              ),
+                            );
+                          }
                         },
                       ),
                     ),
