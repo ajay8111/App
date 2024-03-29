@@ -158,1042 +158,3678 @@ class ClickableLetterWidget extends StatelessWidget {
 }
 
 // Define YourPageA(), YourPageB(), etc., based on your project structure
-class PageA extends StatelessWidget {
+class PageA extends StatefulWidget {
+  @override
+  _PageAState createState() => _PageAState();
+}
+
+class _PageAState extends State<PageA> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Aletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Aletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageB extends StatelessWidget {
+class GridPainter extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+
+class PageB extends StatefulWidget {
+  @override
+  _PageBState createState() => _PageBState();
+}
+
+class _PageBState extends State<PageB> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Bletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Bletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageC extends StatelessWidget {
+class GridPainter2 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter2({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+
+class PageC extends StatefulWidget {
+  @override
+  _PageCState createState() => _PageCState();
+}
+
+class _PageCState extends State<PageC> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Cletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Cletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageD extends StatelessWidget {
+class GridPainter3 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter3({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+class PageD extends StatefulWidget {
+  @override
+  _PageDState createState() => _PageDState();
+}
+
+class _PageDState extends State<PageD> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Dletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Dletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageE extends StatelessWidget {
+class GridPainter4 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter4({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+class PageE extends StatefulWidget {
+  @override
+  _PageEState createState() => _PageEState();
+}
+
+class _PageEState extends State<PageE> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Eletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Eletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageF extends StatelessWidget {
+class GridPainter5 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter5({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+class PageF extends StatefulWidget {
+  @override
+  _PageFState createState() => _PageFState();
+}
+
+class _PageFState extends State<PageF> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Fletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Fletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageG extends StatelessWidget {
+class GridPainter6 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter6({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+
+class PageG extends StatefulWidget {
+  @override
+  _PageGState createState() => _PageGState();
+}
+
+class _PageGState extends State<PageG> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Gletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Gletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageH extends StatelessWidget {
+class GridPainter7 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter7({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+class PageH extends StatefulWidget {
+  @override
+  _PageHState createState() => _PageHState();
+}
+
+class _PageHState extends State<PageH> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Hletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Hletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageI extends StatelessWidget {
+class GridPainter8 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter8({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+class PageI extends StatefulWidget {
+  @override
+  _PageIState createState() => _PageIState();
+}
+
+class _PageIState extends State<PageI> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Iletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Iletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageJ extends StatelessWidget {
+class GridPainter9 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter9({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+class PageJ extends StatefulWidget {
+  @override
+  _PageJState createState() => _PageJState();
+}
+
+class _PageJState extends State<PageJ> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Jletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Jletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageK extends StatelessWidget {
+class GridPainter10 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter10({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+
+class PageK extends StatefulWidget {
+  @override
+  _PageKState createState() => _PageKState();
+}
+
+class _PageKState extends State<PageK> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Kletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Kletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageL extends StatelessWidget {
+class GridPainter11 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter11({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+
+class PageL extends StatefulWidget {
+  @override
+  _PageLState createState() => _PageLState();
+}
+
+class _PageLState extends State<PageL> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Lletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Lletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageM extends StatelessWidget {
+class GridPainter12 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter12({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+
+class PageM extends StatefulWidget {
+  @override
+  _PageMState createState() => _PageMState();
+}
+
+class _PageMState extends State<PageM> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Mletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Mletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageN extends StatelessWidget {
+class GridPainter13 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter13({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+class PageN extends StatefulWidget {
+  @override
+  _PageNState createState() => _PageNState();
+}
+
+class _PageNState extends State<PageN> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Nletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Nletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageO extends StatelessWidget {
+class GridPainter14 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter14({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+
+class PageO extends StatefulWidget {
+  @override
+  _PageOState createState() => _PageOState();
+}
+
+class _PageOState extends State<PageO> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Oletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Oletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageP extends StatelessWidget {
+class GridPainter15 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter15({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+class PageP extends StatefulWidget {
+  @override
+  _PagePState createState() => _PagePState();
+}
+
+class _PagePState extends State<PageP> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Pletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Pletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageQ extends StatelessWidget {
+class GridPainter16 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter16({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+
+class PageQ extends StatefulWidget {
+  @override
+  _PageQState createState() => _PageQState();
+}
+
+class _PageQState extends State<PageQ> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Qletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Qletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageR extends StatelessWidget {
+class GridPainter17 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter17({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+
+class PageR extends StatefulWidget {
+  @override
+  _PageRState createState() => _PageRState();
+}
+
+class _PageRState extends State<PageR> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Rletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Rletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageS extends StatelessWidget {
+class GridPainter18 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter18({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+class PageS extends StatefulWidget {
+  @override
+  _PageSState createState() => _PageSState();
+}
+
+class _PageSState extends State<PageS> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Sletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Sletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageT extends StatelessWidget {
+class GridPainter19 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter19({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+class PageT extends StatefulWidget {
+  @override
+  _PageTState createState() => _PageTState();
+}
+
+class _PageTState extends State<PageT> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Tletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Tletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageU extends StatelessWidget {
+class GridPainter20 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter20({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+
+class PageU extends StatefulWidget {
+  @override
+  _PageUState createState() => _PageUState();
+}
+
+class _PageUState extends State<PageU> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Uletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Uletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageV extends StatelessWidget {
+class GridPainter21 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter21({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+class PageV extends StatefulWidget {
+  @override
+  _PageVState createState() => _PageVState();
+}
+
+class _PageVState extends State<PageV> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Vletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Vletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageW extends StatelessWidget {
+class GridPainter22 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter22({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+class PageW extends StatefulWidget {
+  @override
+  _PageWState createState() => _PageWState();
+}
+
+class _PageWState extends State<PageW> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Wletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Wletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageX extends StatelessWidget {
+class GridPainter23 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter23({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+
+class PageX extends StatefulWidget {
+  @override
+  _PageXState createState() => _PageXState();
+}
+
+class _PageXState extends State<PageX> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Xletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Xletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageY extends StatelessWidget {
+class GridPainter24 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter24({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+class PageY extends StatefulWidget {
+  @override
+  _PageYState createState() => _PageYState();
+}
+
+class _PageYState extends State<PageY> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Yletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Yletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class PageZ extends StatelessWidget {
+class GridPainter25 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter25({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+  }
+}
+
+class PageZ extends StatefulWidget {
+  @override
+  _PageZState createState() => _PageZState();
+}
+
+class _PageZState extends State<PageZ> {
+  final List<Offset> tappedSquares = [];
+
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          // Background Image
-          Image.asset(
-            'assets/A.jpg', // Replace with your image path
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
-          Positioned(
-            top: 150,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Hero(
-                tag: 'letterHero',
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  color: Colors.transparent, // Set color to transparent
-                  child: Image.asset(
-                    'assets/Zletter.png', // Replace with your image path
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
                 ),
               ),
-            ),
-          ),
-        ],
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box = context.findRenderObject() as RenderBox;
+                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the A letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.05, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Zletter.png', // Path to your A letter image
+                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
+  }
+}
+
+class GridPainter26 extends CustomPainter {
+  final List<Offset> tappedSquares;
+
+  GridPainter26({required this.tappedSquares});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
   }
 }

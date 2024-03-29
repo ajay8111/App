@@ -9,6 +9,8 @@ class BluetoothScanner extends StatefulWidget {
 class _BluetoothScannerState extends State<BluetoothScanner> {
   FlutterBlue flutterBlue = FlutterBlue.instance;
   List<BluetoothDevice> devices = [];
+  Map<BluetoothDevice, bool> connectedDevices = {};
+  Map<BluetoothDevice, bool> connectingDevices = {};
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,6 @@ class _BluetoothScannerState extends State<BluetoothScanner> {
         ),
         centerTitle: true,
         backgroundColor: Colors.blue.shade900,
-        // Set app bar elevation to 0
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -39,7 +40,7 @@ class _BluetoothScannerState extends State<BluetoothScanner> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 50), // Add some top margin
+              SizedBox(height: 50),
               ElevatedButton(
                 onPressed: () async {
                   if (await flutterBlue.isOn) {
@@ -91,9 +92,9 @@ class _BluetoothScannerState extends State<BluetoothScanner> {
                       margin:
                           EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                       child: ListTile(
-                        title:
-                            Text(devices[index].name ?? 'Unknown Device'),
+                        title: Text(devices[index].name ?? 'Unknown Device'),
                         subtitle: Text(devices[index].id.id),
+                        trailing: _buildTrailingWidget(devices[index]),
                         onTap: () {
                           connectToDevice(devices[index]);
                         },
@@ -107,6 +108,19 @@ class _BluetoothScannerState extends State<BluetoothScanner> {
         ),
       ),
     );
+  }
+
+  Widget _buildTrailingWidget(BluetoothDevice device) {
+    final bool isConnecting = connectingDevices.containsKey(device) ? connectingDevices[device]! : false;
+    final bool isConnected = connectedDevices.containsKey(device) ? connectedDevices[device]! : false;
+
+    if (isConnecting) {
+      return CircularProgressIndicator();
+    } else if (isConnected) {
+      return Text('Connected', style: TextStyle(color: Colors.green));
+    } else {
+      return Text('Not Connected', style: TextStyle(color: Colors.red));
+    }
   }
 
   void scanForDevices() {
@@ -130,11 +144,37 @@ class _BluetoothScannerState extends State<BluetoothScanner> {
   }
 
   void connectToDevice(BluetoothDevice device) async {
+    setState(() {
+      connectingDevices[device] = true;
+    });
+
     try {
       await device.connect();
+      setState(() {
+        connectedDevices[device] = true;
+      });
       print('Connected to ${device.name}');
     } catch (e) {
       print('Error connecting to device: $e');
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Connection Error'),
+          content: Text('Could not connect to the device. Please try again.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } finally {
+      setState(() {
+        connectingDevices[device] = false;
+      });
     }
   }
 

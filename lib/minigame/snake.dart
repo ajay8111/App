@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class SnakeGamePage extends StatefulWidget {
-  const SnakeGamePage({super.key});
+  const SnakeGamePage({Key? key}) : super(key: key);
 
   @override
   State<SnakeGamePage> createState() => _SnakeGamePageState();
@@ -17,9 +17,9 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
   List<int> borderList = [];
   List<int> snakePosition = [];
   int snakeHead = 0;
-  int score = 11;
+  int score = 0;
   late Direction direction;
-  late int foodPoistion;
+  late int foodPosition;
 
   @override
   void initState() {
@@ -33,7 +33,8 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
     direction = Direction.right;
     snakePosition = [45, 44, 43];
     snakeHead = snakePosition.first;
-    Timer.periodic(const Duration(milliseconds: 300), (timer) {
+    score = 0; // Reset the score
+    Timer.periodic(const Duration(milliseconds: 200), (timer) {
       updateSnake();
       if (checkCollision()) {
         timer.cancel();
@@ -48,15 +49,30 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          title: const Text("Game Over"),
-          content: const Text("Your snake collided!"),
+          title: Center(
+            child: Text(
+              "Game Over",
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'ProtestRiot',
+                color: Colors.redAccent
+              ),
+            ),
+          ),
+          content: const Text("Your snake collided..",
+          style: TextStyle(fontFamily: 'ProtestRiot',
+                          fontSize: 16,
+                          ),),
           actions: [
             TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  startGame();
-                },
-                child: const Text("Restart"))
+              onPressed: () {
+                Navigator.of(context).pop();
+                startGame();
+              },
+              child: const Text("Restart",
+              style: TextStyle(fontFamily: 'ProtestRiot'),),
+            )
           ],
         );
       },
@@ -64,16 +80,16 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
   }
 
   bool checkCollision() {
-    //if snake collid with border
+    // If snake collides with border
     if (borderList.contains(snakeHead)) return true;
-    //if snake collid with itself
+    // If snake collides with itself
     if (snakePosition.sublist(1).contains(snakeHead)) return true;
     return false;
   }
 
   void generateFood() {
-    foodPoistion = Random().nextInt(row * column);
-    if (borderList.contains(foodPoistion)) {
+    foodPosition = Random().nextInt(row * column);
+    if (borderList.contains(foodPosition)) {
       generateFood();
     }
   }
@@ -96,7 +112,7 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
       }
     });
 
-    if (snakeHead == foodPoistion) {
+    if (snakeHead == foodPosition) {
       score++;
       generateFood();
     } else {
@@ -109,22 +125,33 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [Expanded(child: _buildGameView()), _buildGameControls()],
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          double cellSize = constraints.maxWidth / column;
+          return Column(
+            children: [
+              Expanded(child: _buildGameView(cellSize)),
+              _buildGameControls(),
+            ],
+          );
+        },
       ),
     );
   }
 
-  Widget _buildGameView() {
+  Widget _buildGameView(double cellSize) {
     return GridView.builder(
-      gridDelegate:
-          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: column),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: column,
+        childAspectRatio: 1.0,
+      ),
       itemBuilder: (context, index) {
         return Container(
-          margin: const EdgeInsets.all(1),
+          margin: EdgeInsets.all(1),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: fillBoxColor(index)),
+            borderRadius: BorderRadius.circular(8),
+            color: fillBoxColor(index),
+          ),
         );
       },
       itemCount: row * column,
@@ -133,7 +160,7 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
 
   Widget _buildGameControls() {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -143,7 +170,7 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
             onPressed: () {
               if (direction != Direction.down) direction = Direction.up;
             },
-            icon: const Icon(Icons.arrow_circle_up),
+            icon: Icon(Icons.arrow_circle_up),
             iconSize: 100,
           ),
           Row(
@@ -151,18 +178,23 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
             children: [
               IconButton(
                 onPressed: () {
-                  if (direction != Direction.right) direction = Direction.left;
+                  if (direction != Direction.right)
+                    direction = Direction.left;
                 },
-                icon: const Icon(Icons.arrow_circle_left_outlined),
+                icon: Icon(Icons.arrow_circle_left_outlined),
                 iconSize: 100,
               ),
-              const SizedBox(width: 100),
-              IconButton(
-                onPressed: () {
-                  if (direction != Direction.left) direction = Direction.right;
-                },
-                icon: const Icon(Icons.arrow_circle_right_outlined),
-                iconSize: 100,
+              SizedBox(width: 100),
+              SizedBox(
+                width: 100,
+                child: IconButton(
+                  onPressed: () {
+                    if (direction != Direction.left)
+                      direction = Direction.right;
+                  },
+                  icon: Icon(Icons.arrow_circle_right_outlined),
+                  iconSize: 100,
+                ),
               ),
             ],
           ),
@@ -170,7 +202,7 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
             onPressed: () {
               if (direction != Direction.up) direction = Direction.down;
             },
-            icon: const Icon(Icons.arrow_circle_down_outlined),
+            icon: Icon(Icons.arrow_circle_down_outlined),
             iconSize: 100,
           ),
         ],
@@ -189,7 +221,7 @@ class _SnakeGamePageState extends State<SnakeGamePage> {
           return Colors.black.withOpacity(0.9);
         }
       } else {
-        if (index == foodPoistion) {
+        if (index == foodPosition) {
           return Colors.red;
         }
       }

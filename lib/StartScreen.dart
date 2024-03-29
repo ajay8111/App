@@ -110,22 +110,12 @@ class _StartScreenState extends State<StartScreen>
             bottom: 10,
             left: 0,
             right: 0,
-            child: AnimatedSwitcher(
-              duration: Duration(milliseconds: 300),
-              transitionBuilder: (child, animation) {
-                return ScaleTransition(
-                  scale: animation,
-                  child: child,
-                );
-              },
-              child: IconButton(
-                key: ValueKey<bool>(_isBackgroundMusicPlaying),
-                onPressed: _toggleBackgroundMusic,
-                icon: Icon(
-                  _isBackgroundMusicPlaying ? Icons.volume_up : Icons.volume_off,
-                  size: 40,
-                  color: Colors.white,
-                ),
+            child: GestureDetector(
+              onTap: _toggleBackgroundMusic,
+              child: Icon(
+                _isBackgroundMusicPlaying ? Icons.volume_up : Icons.volume_off,
+                size: 40,
+                color: Colors.white,
               ),
             ),
           ),
@@ -149,7 +139,7 @@ class _StartScreenState extends State<StartScreen>
   void _playBackgroundMusic() async {
     try {
       // Load and play the background music
-      await _backgroundMusicPlayer.setAsset('assets/deep.mp3');
+      await _backgroundMusicPlayer.setAsset('assets/farcry.mp3');
       await _backgroundMusicPlayer.setLoopMode(LoopMode.one);
       await _backgroundMusicPlayer.play();
     } catch (e) {
@@ -215,8 +205,3 @@ class BubblePainter extends CustomPainter {
   }
 }
 
-void main() {
-  runApp(MaterialApp(
-    home: StartScreen(),
-  ));
-}

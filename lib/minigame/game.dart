@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/minigame/block.dart';
+import 'package:flutter_application_1/minigame/packman.dart';
 import 'package:flutter_application_1/minigame/snake.dart';
 
 class AppInfo {
@@ -124,6 +126,20 @@ class _HorizontalAppContainerListState
                               context,
                               MaterialPageRoute(
                                 builder: (context) => SnakeGamePage(),
+                              ),
+                            );
+                          } else if (appInfo.subtitle == 'Block Blast') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => TetrisBoard(),
+                              ),
+                            );
+                          }else if (appInfo.subtitle == 'Packman') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PacManGame(),
                               ),
                             );
                           }
