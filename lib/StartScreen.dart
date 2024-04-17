@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 import 'dart:math';
 
 import 'menu.dart'; // Import your Menu screen
@@ -13,8 +12,6 @@ class _StartScreenState extends State<StartScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late List<Bubble> _bubbles;
-  late AudioPlayer _backgroundMusicPlayer; // Define AudioPlayer instance for background music
-  bool _isBackgroundMusicPlaying = true; // Track if background music is playing or not
 
   @override
   void initState() {
@@ -33,16 +30,11 @@ class _StartScreenState extends State<StartScreen>
       }
       setState(() {});
     });
-
-    // Initialize AudioPlayer for background music
-    _backgroundMusicPlayer = AudioPlayer();
-    _playBackgroundMusic(); // Play background music
   }
 
   @override
   void dispose() {
     _animationController.dispose();
-    _backgroundMusicPlayer.dispose(); // Dispose the AudioPlayer instance for background music
     super.dispose();
   }
 
@@ -106,19 +98,6 @@ class _StartScreenState extends State<StartScreen>
               },
             ),
           ),
-          Positioned(
-            bottom: 10,
-            left: 0,
-            right: 0,
-            child: GestureDetector(
-              onTap: _toggleBackgroundMusic,
-              child: Icon(
-                _isBackgroundMusicPlaying ? Icons.volume_up : Icons.volume_off,
-                size: 40,
-                color: Colors.white,
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -127,35 +106,10 @@ class _StartScreenState extends State<StartScreen>
   void _playSound() async {
     try {
       // Load and play the click sound
-      final clickPlayer = AudioPlayer();
-      await clickPlayer.setAsset('assets/click.mp3');
-      await clickPlayer.play();
-      await clickPlayer.dispose(); // Dispose the click sound player
+      // You can add your click sound here
     } catch (e) {
       print("Error playing sound: $e");
     }
-  }
-
-  void _playBackgroundMusic() async {
-    try {
-      // Load and play the background music
-      await _backgroundMusicPlayer.setAsset('assets/farcry.mp3');
-      await _backgroundMusicPlayer.setLoopMode(LoopMode.one);
-      await _backgroundMusicPlayer.play();
-    } catch (e) {
-      print("Error playing background music: $e");
-    }
-  }
-
-  void _toggleBackgroundMusic() async {
-    if (_isBackgroundMusicPlaying) {
-      await _backgroundMusicPlayer.pause(); // Pause background music
-    } else {
-      await _backgroundMusicPlayer.play(); // Resume background music
-    }
-    setState(() {
-      _isBackgroundMusicPlaying = !_isBackgroundMusicPlaying; // Toggle the state
-    });
   }
 }
 
@@ -204,4 +158,3 @@ class BubblePainter extends CustomPainter {
     return true;
   }
 }
-

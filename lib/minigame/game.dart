@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/minigame/block.dart';
-import 'package:flutter_application_1/minigame/packman.dart';
 import 'package:flutter_application_1/minigame/snake.dart';
 
 class AppInfo {
@@ -24,18 +23,7 @@ class Gamepage extends StatelessWidget {
       subtitle: 'Block Blast',
       imagePath: 'assets/brick.jpg', // Replace with your image path
     ),
-    AppInfo(
-      subtitle: 'Packman',
-      imagePath: 'assets/packman.jpg', // Replace with your image path
-    ),
-    AppInfo(
-      subtitle: 'Dino Game',
-      imagePath: 'assets/dinogame.jpg', // Replace with your image path
-    ),
-    AppInfo(
-      subtitle: 'Flappy Bird',
-      imagePath: 'assets/flappybird.jpg', // Replace with your image path
-    ),
+
   ];
 
   @override
@@ -135,15 +123,9 @@ class _HorizontalAppContainerListState
                                 builder: (context) => TetrisBoard(),
                               ),
                             );
-                          }else if (appInfo.subtitle == 'Packman') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PacManGame(),
-                              ),
-                            );
                           }
-                        },
+                        }  
+                          
                       ),
                     ),
                     SizedBox(height: 8.0),

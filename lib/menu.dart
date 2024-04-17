@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter_application_1/minigame/game.dart';
 import 'package:flutter_application_1/page1.dart';
-import 'package:flutter_application_1/login_screen.dart';
+import 'package:flutter_application_1/bluetooth.dart';
 
 class Menu extends StatelessWidget {
   final AudioPlayer audioPlayer = AudioPlayer();
@@ -98,7 +98,7 @@ class Menu extends StatelessWidget {
                           );
                         },
                         child: Text(
-                          'Quiz Game',
+                          'Connect Board ',
                           style: TextStyle(
                             color: Color.fromARGB(255, 229, 47, 86),
                             fontSize: MediaQuery.of(context).size.width * 0.1,
