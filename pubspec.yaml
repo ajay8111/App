@@ -39,6 +39,8 @@ dependencies:
   lottie: ^1.1.0
   flutter_bluetooth_serial: ^0.4.0
   just_audio: ^0.9.36
+  shared_preferences: ^2.2.3
+  provider: ^6.1.2
   
   
 
@@ -162,6 +164,7 @@ flutter:
     - assets/flappybird.jpg
     - assets/deep.mp3
     - assets/farcry.mp3
+    
         
 
 

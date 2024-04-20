@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/controller/bluetooth.dart';
+import 'package:flutter_application_1/bluetooth_manager.dart';
+
 import 'package:flutter_application_1/easy.dart';
 import 'package:flutter_application_1/hard.dart';
 import 'package:flutter_application_1/medium.dart';
 import 'package:just_audio/just_audio.dart';
+
 
 class Page1 extends StatelessWidget {
   final AudioPlayer _audioPlayer = AudioPlayer(); // Define AudioPlayer instance
@@ -220,7 +222,7 @@ class Page1 extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => BluetoothScanner()),
+                          builder: (context) => BluetoothManagePage()),
                     );
                   },
                 ),

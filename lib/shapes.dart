@@ -74,9 +74,17 @@ class ClickableList extends StatelessWidget {
         break;
       case 'Pentagon':
         Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Pentagon()),
-        );
+  context,
+  MaterialPageRoute(
+    builder: (context) => DataReceiver(
+      sendTextCallback: (text) {
+        // Implement your logic to send text here
+        print('Text received in LoginPage: $text');
+      },
+    ),
+  ),
+);
+
         break;
       default:
         print('Invalid shape: $shapeName');

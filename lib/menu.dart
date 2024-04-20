@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/ReceviedData.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter_application_1/minigame/game.dart';
 import 'package:flutter_application_1/page1.dart';
-import 'package:flutter_application_1/bluetooth.dart';
+import 'package:flutter_application_1/connect_device.dart';
 
 class Menu extends StatelessWidget {
   final AudioPlayer audioPlayer = AudioPlayer();
@@ -74,7 +75,7 @@ class Menu extends StatelessWidget {
                           playSound('assets/click.mp3');
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Gamepage()),
+                            MaterialPageRoute(builder: (context) => SendMessagePage()),
                           );
                         },
                         child: Text(
@@ -94,7 +95,7 @@ class Menu extends StatelessWidget {
                           // Navigate to LoginScreen when "Quiz Game" button is pressed
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => LoginPage()),
+                            MaterialPageRoute(builder: (context) => BPage()),
                           );
                         },
                         child: Text(
