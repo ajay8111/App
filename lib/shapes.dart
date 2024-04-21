@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pentagon.dart';
 import 'package:flutter_application_1/rectangle.dart';
 import 'package:flutter_application_1/square.dart';
 import 'package:flutter_application_1/triangle.dart';
 
 class Shapes extends StatelessWidget {
-  final List<String> shapes = ['Square', 'Rectangle', 'Triangle', 'Pentagon'];
+  final List<String> shapes = ['Square', 'Rectangle', 'Triangle',];
 
   @override
   Widget build(BuildContext context) {
@@ -71,22 +70,9 @@ class ClickableList extends StatelessWidget {
           context,
           MaterialPageRoute(builder: (context) => Triangle()),
         );
-        break;
-      case 'Pentagon':
-        Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (context) => DataReceiver(
-      sendTextCallback: (text) {
-        // Implement your logic to send text here
-        print('Text received in LoginPage: $text');
-      },
-    ),
-  ),
-);
 
-        break;
-      default:
+        break;    
+         default:
         print('Invalid shape: $shapeName');
     }
   }
