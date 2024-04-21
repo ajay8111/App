@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/bluetooth_manager.dart';
-
 import 'package:flutter_application_1/easy.dart';
 import 'package:flutter_application_1/hard.dart';
 import 'package:flutter_application_1/medium.dart';
 import 'package:just_audio/just_audio.dart';
-
 
 class Page1 extends StatelessWidget {
   final AudioPlayer _audioPlayer = AudioPlayer(); // Define AudioPlayer instance
@@ -214,16 +211,12 @@ class Page1 extends StatelessWidget {
                   ],
                 ),
                 child: IconButton(
-                  icon: Icon(Icons.bluetooth,
-                      color: Color.fromARGB(255, 39, 156, 240),
-                      size: MediaQuery.of(context).size.width * 0.08),
+                  icon: Icon(Icons.warning, // Use the warning icon
+                    color: Color.fromARGB(255, 39, 156, 240),
+                    size: MediaQuery.of(context).size.width * 0.08),
                   onPressed: () {
-                    _playSound(); // Play sound when bluetooth icon button is pressed
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => BluetoothManagePage()),
-                    );
+                    _playSound(); // Play sound when warning icon button is pressed
+                    _showInfoPopup(context); // Show the information popup
                   },
                 ),
               ),
@@ -242,4 +235,44 @@ class Page1 extends StatelessWidget {
       print("Error playing sound: $e");
     }
   }
+
+ void _showInfoPopup(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      backgroundColor: Color.fromARGB(255, 51, 100, 141), // Set background color to blue
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0), // Add some border radius
+      ),
+      title: Text(
+        'Warning',
+        style: TextStyle(
+          color: Colors.white, // Set text color to white
+          fontFamily: 'Comic Sans MS', // Use a cartoonish font
+        ),
+      ),
+      content: Text(
+        'This section is still in development. Certain functionalities may not work.',
+        style: TextStyle(
+          color: Colors.white, // Set text color to white
+          fontFamily: 'Comic Sans MS', // Use a cartoonish font
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text(
+            'OK',
+            style: TextStyle(
+              color: Colors.white, // Set text color to white
+              fontFamily: 'Comic Sans MS', // Use a cartoonish font
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
 }
