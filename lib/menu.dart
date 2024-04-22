@@ -3,9 +3,11 @@ import 'package:flutter_application_1/Recevie.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter_application_1/page1.dart';
 import 'package:flutter_application_1/connect_device.dart';
+import 'bluetooth.dart';
 
 class Menu extends StatelessWidget {
   final AudioPlayer audioPlayer = AudioPlayer();
+  final BService bluetoothService = BService();
 
   @override
   Widget build(BuildContext context) {

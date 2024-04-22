@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'bluetooth.dart';
 
 class BPage extends StatefulWidget {
@@ -10,7 +10,7 @@ class BPage extends StatefulWidget {
 class _BPageState extends State<BPage> {
   final BService _bluetoothService = BService();
   List<BluetoothDevice> _connectedDevices = [];
-  List<BluetoothDevice> _availableDevices = [];
+  List<BluetoothDevice> _availableDevices = []; // Update this line
 
   @override
   void initState() {
@@ -21,15 +21,24 @@ class _BPageState extends State<BPage> {
 
   void _startScanning() {
     _bluetoothService.startScanning();
-    _bluetoothService.scannedDevicesStream.listen((devices) {
-      setState(() {
-        _availableDevices = devices.where((device) => !_connectedDevices.contains(device)).toList();
-      });
-    });
+    _bluetoothService.scannedDevicesStream.listen(
+      (List<BluetoothDevice> devices) { // Update the type of the callback parameter
+        setState(() {
+          _availableDevices = devices.where((device) {
+            // Filter out already connected devices
+            return !_connectedDevices.any((connectedDevice) => connectedDevice.id == device.id);
+          }).toList();
+        });
+      },
+      onError: (error) {
+        // Handle errors from the stream, if any
+        print('Error in scanning: $error');
+      },
+    );
   }
 
   void _getConnectedDevices() async {
-    List<BluetoothDevice> connectedDevices = await _bluetoothService.getConnectedDevices();
+    List<BluetoothDevice> connectedDevices = await FlutterBluePlus.connectedDevices;
     setState(() {
       _connectedDevices = connectedDevices;
     });
@@ -49,7 +58,7 @@ class _BPageState extends State<BPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bluetooth Demo'),
+        title: Text('Connect'),
       ),
       body: Column(
         children: [
@@ -82,7 +91,7 @@ class _BPageState extends State<BPage> {
             child: ListView.builder(
               itemCount: _availableDevices.length,
               itemBuilder: (context, index) {
-                final device = _availableDevices[index];
+                final device = _availableDevices[index]; // Update this line
                 return ListTile(
                   title: Text(device.name),
                   subtitle: Text(device.id.toString()),

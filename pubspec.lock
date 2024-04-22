@@ -130,10 +130,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_blue_plus
-      sha256: "1e53ba4b60c1097396fbeafdd31eac5c20b0876b56a0c1ab6f3dec5ee06d44d7"
+      sha256: "9419ca515ddcbe19a87fa2c45df97833d258c939b0e39ee2f38688a6c1fdbfde"
       url: "https://pub.dev"
     source: hosted
-    version: "1.32.0"
+    version: "1.32.4"
   flutter_bluetooth_serial:
     dependency: "direct main"
     description:

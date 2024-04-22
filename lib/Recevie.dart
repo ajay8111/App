@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:flutter_application_1/bluetooth.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 class ReceiveData extends StatefulWidget {
   @override
@@ -7,10 +8,69 @@ class ReceiveData extends StatefulWidget {
 }
 
 class _ReceiveDataState extends State<ReceiveData> {
-  FlutterBlue flutterBlue = FlutterBlue.instance;
-  BluetoothDevice? connectedDevice; // Nullable
-  BluetoothCharacteristic? characteristic; // Nullable
-  String receivedData = '';
+  final BService bluetoothService = BService();
+  BluetoothDevice? _device;
+  List<String> _receivedMessages = [];
+  
+  get flutterBlue => null;
+
+  @override
+  void initState() {
+    super.initState();
+    _startScanning();
+  }
+
+  Future<void> _startScanning() async {
+    try {
+      // Start scanning for devices
+      flutterBlue.startScan(timeout: Duration(seconds: 4));
+
+      // Listen for scan results
+      flutterBlue.scanResults.listen((List<ScanResult> results) {
+        for (ScanResult result in results) {
+          // Check if the device you're interested in is found
+          if (result.device.name == 'MindSpark') {
+            // Stop scanning
+            flutterBlue.stopScan();
+
+            // Connect to the device
+            _connectToDevice(result.device);
+            break;
+          }
+        }
+      });
+    } catch (e) {
+      print('Error scanning for devices: $e');
+    }
+  }
+
+  Future<void> _connectToDevice(BluetoothDevice device) async {
+    try {
+      // Connect to the device
+      await device.connect();
+
+      // Discover services and characteristics
+      List<BluetoothService> services = await device.discoverServices();
+      services.forEach((service) {
+        service.characteristics.forEach((characteristic) {
+          // Subscribe to characteristic notifications
+          if (characteristic.uuid.toString() == "00002A19-0000-1000-8000-00805F9B34FB") {
+            characteristic.setNotifyValue(true);
+            characteristic.value.listen((value) {
+              // Convert the received value to a string
+              String receivedMessage = String.fromCharCodes(value);
+              // Update the UI with the received message
+              setState(() {
+                _receivedMessages.add(receivedMessage);
+              });
+            });
+          }
+        });
+      });
+    } catch (e) {
+      print('Error connecting to device: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,81 +78,23 @@ class _ReceiveDataState extends State<ReceiveData> {
       appBar: AppBar(
         title: Text('Receive Data'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (connectedDevice != null)
-              Text(
-                connectedDevice!.name,
-                style: TextStyle(fontSize: 24),
-              ),
-            SizedBox(height: 20),
-            Text(
-              receivedData,
-              style: TextStyle(fontSize: 18),
-            ),
-          ],
-        ),
+      body: ListView.builder(
+        itemCount: _receivedMessages.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(_receivedMessages[index]),
+          );
+        },
       ),
     );
   }
 
   @override
-  void initState() {
-    super.initState();
-    connectToDevice();
-  }
-
-  void connectToDevice() async {
-    // Start scanning for devices
-    flutterBlue.startScan(timeout: Duration(seconds: 4));
-
-    // Listen for scan results
-    flutterBlue.scanResults.listen((List<ScanResult> results) {
-      // Do something with scan results
-      for (ScanResult result in results) {
-        if (result.device.name == "ESP32 Server") {
-          print('Found device: ${result.device.name}');
-          setState(() {
-            connectedDevice = result.device;
-          });
-          connectToDeviceAndDiscoverServices(result.device);
-          return; // Exit the loop after finding the device
-        }
-      }
-    });
-  }
-
-  void connectToDeviceAndDiscoverServices(BluetoothDevice device) async {
-    // Stop scanning
-    flutterBlue.stopScan();
-
-    // Connect to the device
-    await device.connect();
-
-    // Discover services and characteristics
-    List<BluetoothService> services = await device.discoverServices();
-    for (BluetoothService service in services) {
-      for (BluetoothCharacteristic c in service.characteristics) {
-        if (c.uuid.toString() == "00002a19-0000-1000-8000-00805f9b34fb") {
-          characteristic = c;
-          break;
-        }
-      }
+  void dispose() {
+    // Disconnect from the device when the widget is disposed
+    if (_device != null) {
+      _device!.disconnect();
     }
-
-    // Start listening for notifications
-    if (characteristic != null) {
-      await characteristic!.setNotifyValue(true);
-      characteristic!.value.listen((value) {
-        // Handle received data from ESP32
-        String data = String.fromCharCodes(value);
-        setState(() {
-          receivedData = data;
-        });
-        print('Received data from ESP32: $data');
-      });
-    }
+    super.dispose();
   }
 }
