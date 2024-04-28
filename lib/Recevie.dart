@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/bluetooth.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'bluetooth.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'ESP32 Bluetooth Demo',
+      home: ReceiveData(),
+    );
+  }
+}
 
 class ReceiveData extends StatefulWidget {
   @override
@@ -8,67 +20,68 @@ class ReceiveData extends StatefulWidget {
 }
 
 class _ReceiveDataState extends State<ReceiveData> {
-  final BService bluetoothService = BService();
-  BluetoothDevice? _device;
-  List<String> _receivedMessages = [];
-  
-  get flutterBlue => null;
+  late BluetoothCharacteristic characteristic;
+  late BluetoothCharacteristic notifyCharacteristic;
+
+  final BService _bluetoothService = BService();
+
+  String _message = '';
 
   @override
   void initState() {
     super.initState();
-    _startScanning();
+    _getBluetoothData();
   }
 
-  Future<void> _startScanning() async {
+  Future<void> _getBluetoothData() async {
     try {
-      // Start scanning for devices
-      flutterBlue.startScan(timeout: Duration(seconds: 4));
-
-      // Listen for scan results
-      flutterBlue.scanResults.listen((List<ScanResult> results) {
-        for (ScanResult result in results) {
-          // Check if the device you're interested in is found
-          if (result.device.name == 'MindSpark') {
-            // Stop scanning
-            flutterBlue.stopScan();
-
-            // Connect to the device
-            _connectToDevice(result.device);
-            break;
-          }
-        }
-      });
+      // get connected Bluetooth device from BService class
+      BluetoothDevice device = await _bluetoothService.getConnectedDevice();
+      _getServiceAndCharacteristic(device);
     } catch (e) {
-      print('Error scanning for devices: $e');
+      print(e);
     }
   }
 
-  Future<void> _connectToDevice(BluetoothDevice device) async {
-    try {
-      // Connect to the device
-      await device.connect();
-
-      // Discover services and characteristics
-      List<BluetoothService> services = await device.discoverServices();
-      services.forEach((service) {
-        service.characteristics.forEach((characteristic) {
-          // Subscribe to characteristic notifications
-          if (characteristic.uuid.toString() == "00002A19-0000-1000-8000-00805F9B34FB") {
-            characteristic.setNotifyValue(true);
-            characteristic.value.listen((value) {
-              // Convert the received value to a string
-              String receivedMessage = String.fromCharCodes(value);
-              // Update the UI with the received message
-              setState(() {
-                _receivedMessages.add(receivedMessage);
-              });
-            });
-          }
-        });
+  void _getServiceAndCharacteristic(BluetoothDevice device) async {
+    List<BluetoothService> services = await device.discoverServices();
+    services.forEach((service) {
+      service.characteristics.forEach((char) {
+        if (char.uuid.toString() == '2a19') {
+          notifyCharacteristic = char;
+        }
+        if (char.uuid.toString() == '6e400003-b5a3-f393-e0a9-e50e24dcca9e') {
+          characteristic = char;
+          _listenCharacteristic();
+        }
       });
-    } catch (e) {
-      print('Error connecting to device: $e');
+    });
+
+    // Set the notify characteristic to listen for magnetic field detection
+    if (notifyCharacteristic != null) {
+      await notifyCharacteristic.setNotifyValue(true);
+      notifyCharacteristic.value.listen((value) {
+        String message = new String.fromCharCodes(value);
+        if (message == 'Magnetic Field Detected') {
+          setState(() {
+            _message = 'hello';
+          });
+        }
+      });
+    }
+  }
+
+  void _listenCharacteristic() {
+    Stream<List<int>> stream = characteristic.lastValueStream;
+    if (stream != null) {
+      stream.listen((value) {
+        String message = new String.fromCharCodes(value);
+        if (message == 'Magnetic Field Detected') {
+          setState(() {
+            _message = 'hello';
+          });
+        }
+      });
     }
   }
 
@@ -76,25 +89,14 @@ class _ReceiveDataState extends State<ReceiveData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Receive Data'),
+        title: Text('ESP32 Bluetooth Demo'),
       ),
-      body: ListView.builder(
-        itemCount: _receivedMessages.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(_receivedMessages[index]),
-          );
-        },
+      body: Center(
+        child: Text(
+          '$_message',
+          style: TextStyle(fontSize: 30),
+        ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    // Disconnect from the device when the widget is disposed
-    if (_device != null) {
-      _device!.disconnect();
-    }
-    super.dispose();
   }
 }

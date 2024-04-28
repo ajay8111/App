@@ -31,7 +31,8 @@ class BService {
   }
 
   void startScanning() {
-    _scanSubscription = FlutterBluePlus.scanResults.listen((List<ScanResult> results) {
+    _scanSubscription =
+        FlutterBluePlus.scanResults.listen((List<ScanResult> results) {
       for (ScanResult result in results) {
         if (!_scannedDevices.contains(result.device)) {
           _scannedDevices.add(result.device);
@@ -77,12 +78,15 @@ class BService {
     try {
       if (_connectedDevice != null) {
         // Get the services of the connected device
-        List<BluetoothService> services = await _connectedDevice!.discoverServices();
+        List<BluetoothService> services =
+            await _connectedDevice!.discoverServices();
         for (BluetoothService service in services) {
           // Find the characteristic that corresponds to receiving data
-          for (BluetoothCharacteristic characteristic in service.characteristics) {
+          for (BluetoothCharacteristic characteristic
+              in service.characteristics) {
             // Adjust the UUID to match your receiving characteristic
-            if (characteristic.uuid.toString() == "YOUR_RECEIVE_CHARACTERISTIC_UUID") {
+            if (characteristic.uuid.toString() ==
+                "YOUR_RECEIVE_CHARACTERISTIC_UUID") {
               // Listen for notifications from this characteristic
               characteristic.setNotifyValue(true);
               characteristic.value.listen((value) {
@@ -100,13 +104,24 @@ class BService {
     }
   }
 
+  Future<BluetoothDevice> getConnectedDevice() async {
+    List<BluetoothDevice> connectedDevices =
+        await FlutterBluePlus.connectedDevices;
+    if (connectedDevices.isNotEmpty) {
+      return connectedDevices.first;
+    } else {
+      throw Exception('No connected device found');
+    }
+  }
+
   void sendData(String data) {
     if (_connectedDevice != null) {
       _connectedDevice!.discoverServices().then((services) {
         services.forEach((service) {
           service.characteristics.forEach((characteristic) {
             // Adjust the UUID to match your sending characteristic
-            if (characteristic.uuid.toString() == "00002A19-0000-1000-8000-00805F9B34FB") {
+            if (characteristic.uuid.toString() ==
+                "00002A19-0000-1000-8000-00805F9B34FB") {
               // Write data to the characteristic
               characteristic.write(data.codeUnits);
             }
