@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'bluetooth.dart';
+import 'package:lottie/lottie.dart';
 
 void main() => runApp(MyApp());
 
@@ -61,10 +62,10 @@ class _ReceiveDataState extends State<ReceiveData> {
     if (notifyCharacteristic != null) {
       await notifyCharacteristic.setNotifyValue(true);
       notifyCharacteristic.value.listen((value) {
-        String message = new String.fromCharCodes(value);
+        String message = String.fromCharCodes(value);
         if (message == 'Magnetic Field Detected') {
           setState(() {
-            _message = 'hello';
+            _message = 'magnetic detected';
           });
         }
       });
@@ -75,15 +76,26 @@ class _ReceiveDataState extends State<ReceiveData> {
     Stream<List<int>> stream = characteristic.lastValueStream;
     if (stream != null) {
       stream.listen((value) {
-        String message = new String.fromCharCodes(value);
+        String message = String.fromCharCodes(value);
         if (message == 'Magnetic Field Detected') {
           setState(() {
-            _message = 'hello';
+            _message = 'magnetic detected';
           });
         }
       });
     }
   }
+
+  void _handleCheckButtonPressed() {
+    if (_message == 'magnetic detected') {
+      setState(() {
+        // Set the flag to true when the Check button is pressed
+        _showAnimation = true;
+      });
+    }
+  }
+
+  bool _showAnimation = false;
 
   @override
   Widget build(BuildContext context) {
@@ -92,9 +104,23 @@ class _ReceiveDataState extends State<ReceiveData> {
         title: Text('ESP32 Bluetooth Demo'),
       ),
       body: Center(
-        child: Text(
-          '$_message',
-          style: TextStyle(fontSize: 30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                _handleCheckButtonPressed();
+                // Handle button press here
+              },
+              child: Text('Check'),
+            ),
+            if (_showAnimation)
+              Lottie.asset(
+                'assets/completed.json',
+                width: 200,
+                height: 200,
+              ),
+          ],
         ),
       ),
     );

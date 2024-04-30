@@ -1,9 +1,9 @@
-class PageD extends StatefulWidget {
+class PageZ extends StatefulWidget {
   @override
-  _PageDState createState() => _PageDState();
+  _PageZState createState() => _PageZState();
 }
 
-class _PageCState extends State<PageC> {
+class _PageZState extends State<PageZ> {
   final List<Offset> tappedSquares = [];
   bool showCompletedAnimation = false;
 
@@ -72,14 +72,14 @@ class _PageCState extends State<PageC> {
                   ),
                 ),
               ),
-              // Positioned widget to place the C letter image on top screen
+              // Positioned widget to place the A letter image on top screen
               Positioned(
                 top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
-                    'assets/Cletter.png', // Path to your C letter image
+                    'assets/Zletter.png', // Path to your A letter image
                     width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
@@ -125,10 +125,10 @@ class _PageCState extends State<PageC> {
   }
 }
 
-class GridPainter4 extends CustomPainter {
+class GridPainter26 extends CustomPainter {
   final List<Offset> tappedSquares;
 
-  GridPainter3({required this.tappedSquares});
+  GridPainter26({required this.tappedSquares});
 
   @override
   void paint(Canvas canvas, Size size) {
