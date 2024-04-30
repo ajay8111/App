@@ -22,11 +22,13 @@ class _BPageState extends State<BPage> {
   void _startScanning() {
     _bluetoothService.startScanning();
     _bluetoothService.scannedDevicesStream.listen(
-      (List<BluetoothDevice> devices) { // Update the type of the callback parameter
+      (List<BluetoothDevice> devices) {
+        // Update the type of the callback parameter
         setState(() {
           _availableDevices = devices.where((device) {
             // Filter out already connected devices
-            return !_connectedDevices.any((connectedDevice) => connectedDevice.id == device.id);
+            return !_connectedDevices
+                .any((connectedDevice) => connectedDevice.id == device.id);
           }).toList();
         });
       },
@@ -38,7 +40,8 @@ class _BPageState extends State<BPage> {
   }
 
   void _getConnectedDevices() async {
-    List<BluetoothDevice> connectedDevices = await FlutterBluePlus.connectedDevices;
+    List<BluetoothDevice> connectedDevices =
+        await FlutterBluePlus.connectedDevices;
     setState(() {
       _connectedDevices = connectedDevices;
     });

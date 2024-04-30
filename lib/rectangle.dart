@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart'; // Import the lottie package
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'bluetooth.dart';
 
 class Rectangle extends StatefulWidget {
   @override
   _RectangleState createState() => _RectangleState();
 }
 
-class _RectangleState extends State<Rectangle> with SingleTickerProviderStateMixin {
+class _RectangleState extends State<Rectangle>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<Gradient> _animation;
 
   bool showCompletedAnimation = false;
+  bool isConnected = false;
+
+  final BService bluetoothService = BService();
 
   @override
   void initState() {
@@ -23,16 +29,68 @@ class _RectangleState extends State<Rectangle> with SingleTickerProviderStateMix
 
     _animation = LinearGradientTween(
       begin: LinearGradient(
-        colors: [Color.fromARGB(255, 192, 195, 20), Color.fromARGB(255, 218, 206, 206)],
+        colors: [
+          Color.fromARGB(255, 192, 195, 20),
+          Color.fromARGB(255, 218, 206, 206)
+        ],
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
       ),
       end: LinearGradient(
-        colors: [Color.fromARGB(255, 212, 74, 95), Color.fromARGB(255, 241, 243, 245)],
+        colors: [
+          Color.fromARGB(255, 212, 74, 95),
+          Color.fromARGB(255, 241, 243, 245)
+        ],
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
       ),
     ).animate(_animationController);
+
+    // Check for connection status initially
+    checkConnectionStatus();
+  }
+
+  void checkConnectionStatus() async {
+    try {
+      // Get the connected device
+      BluetoothDevice connectedDevice =
+          await bluetoothService.getConnectedDevice();
+      // If connected, set the isConnected flag to true
+      setState(() {
+        isConnected = true;
+      });
+    } catch (e) {
+      // If not connected, show the pop-up message
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("No Device Connected"),
+            content: Text("Please connect a Bluetooth device."),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  void startAnimation() {
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Delay hiding animation after 10 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
+    });
   }
 
   @override
@@ -72,15 +130,22 @@ class _RectangleState extends State<Rectangle> with SingleTickerProviderStateMix
                             padding: const EdgeInsets.only(bottom: 20.0),
                             child: ElevatedButton(
                               onPressed: () {
-                                setState(() {
-                                  showCompletedAnimation = !showCompletedAnimation;
-                                });
+                                // Check connection status again when button is pressed
+                                checkConnectionStatus();
+                                // Start animation only if connected
+                                if (isConnected) {
+                                  startAnimation();
+                                }
                               },
                               style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(Colors.yellow), // Set background color
-                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.yellow), // Set background color
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20), // Button border radius
+                                    borderRadius: BorderRadius.circular(
+                                        20), // Button border radius
                                   ),
                                 ),
                               ),

@@ -167,6 +167,7 @@ flutter:
     - assets/completed.json
     - assets/rectangle.json
     - assets/triangle.json
+    - assets/wrong.json
     
         
 

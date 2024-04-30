@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart'; // Import the lottie package
+import 'package:lottie/lottie.dart';
+import 'bluetooth.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+
+void main() {
+  runApp(MaterialApp(
+    home: Square(),
+  ));
+}
 
 class Square extends StatefulWidget {
   @override
@@ -10,7 +18,10 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<Gradient> _animation;
 
-  bool showCompletedAnimation = false;
+  bool showCompletedAnimation = false; // Define showCompletedAnimation
+
+  // Initialize an instance of BService
+  final BService bluetoothService = BService();
 
   @override
   void initState() {
@@ -23,16 +34,69 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
 
     _animation = LinearGradientTween(
       begin: LinearGradient(
-        colors: [Color.fromARGB(255, 255, 255, 255), Color.fromARGB(255, 218, 206, 206)],
+        colors: [
+          Color.fromARGB(255, 255, 255, 255),
+          Color.fromARGB(255, 218, 206, 206)
+        ],
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
       ),
       end: LinearGradient(
-        colors: [Color.fromARGB(255, 79, 67, 236), Color.fromARGB(255, 241, 243, 245)],
+        colors: [
+          Color.fromARGB(255, 79, 67, 236),
+          Color.fromARGB(255, 241, 243, 245)
+        ],
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
       ),
     ).animate(_animationController);
+
+    // Check for connection status initially
+    checkConnectionStatus();
+  }
+
+  // Function to check connection status and set the animation accordingly
+  void checkConnectionStatus() async {
+    try {
+      // Get the connected device
+      BluetoothDevice connectedDevice =
+          await bluetoothService.getConnectedDevice();
+      // If connected, set the isConnected flag to true
+      setState(() {
+        bluetoothService.isConnected = true;
+      });
+    } catch (e) {
+      // If not connected, show the pop-up message
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("No Device Connected"),
+            content: Text("Please connect a Bluetooth device."),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  void startAnimation() {
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Delay hiding animation after 10 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
+    });
   }
 
   @override
@@ -54,33 +118,39 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Lottie.asset(
-                          'assets/square.json', // Use the Lottie.asset widget
+                          'assets/square.json',
                           width: 300,
                           height: 300,
                         ),
                         SizedBox(height: 20),
                         if (showCompletedAnimation)
                           Lottie.asset(
-                            'assets/completed.json', // Play the completed animation
+                            'assets/wrong.json',
                             width: 250,
                             height: 250,
                           ),
-                        Spacer(), // Added Spacer widget
+                        Spacer(),
                         Align(
                           alignment: Alignment.bottomCenter,
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 20.0),
                             child: ElevatedButton(
                               onPressed: () {
-                                setState(() {
-                                  showCompletedAnimation = !showCompletedAnimation;
-                                });
+                                // Check connection status again when button is pressed
+                                checkConnectionStatus();
+                                // Start animation only if connected
+                                if (bluetoothService.isConnected) {
+                                  startAnimation();
+                                }
                               },
                               style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(Colors.yellow), // Set background color
-                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.yellow),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20), // Button border radius
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
                               ),
@@ -93,8 +163,8 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black, // Text color
-                                    fontFamily: 'ComicSans', // Text font
+                                    color: Colors.black,
+                                    fontFamily: 'ComicSans',
                                   ),
                                 ),
                               ),
@@ -147,10 +217,4 @@ class LinearGradientTween extends Tween<Gradient> {
   @override
   Gradient lerp(double t) =>
       LinearGradient.lerp(begin as LinearGradient?, end as LinearGradient?, t)!;
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: Square(),
-  ));
 }
