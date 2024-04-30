@@ -1,196 +1,188 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_application_1/StartScreen.dart';
-
-
-class SplashScreen extends StatefulWidget {
+class PageD extends StatefulWidget {
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  _PageDState createState() => _PageDState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _animation;
+class _PageCState extends State<PageC> {
+  final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
-  @override
-  void initState() {
-    super.initState();
+  void resetGrid() {
+    setState(() {
+      tappedSquares.clear();
+    });
+  }
 
-    _animationController = AnimationController(
-      duration: Duration(seconds: 2),
-      vsync: this,
-    );
-
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ),
-    );
-
-    _animationController.forward();
-
-    // Navigate to the next screen after 4 seconds (including animation time)
-    Future.delayed(Duration(seconds: 4), () {
-      // Navigate to the next screen (replace the MaterialPageRoute with your route)
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => StartScreen()),
-      );
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
   @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 143, 97, 12),
-      body: Center(
-        child: FadeTransition(
-          opacity: _animation,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
             children: [
-              // Replace 'YourBoardGameIcon.png' with your actual icon asset
-              Image.asset(
-                'assets/bingo.png',
-                width: 400,
-                height: 400,
+              // Gradient Blue Background
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
               ),
-              SizedBox(height: 20),
-             
+              // Grid Background with Dark Blue Color
+              Container(
+                width: constraints.maxWidth,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
+                child: GestureDetector(
+                  onTapDown: (details) {
+                    setState(() {
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
+                      tappedSquares.add(localOffset);
+                    });
+                  },
+                  child: CustomPaint(
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
+                  ),
+                ),
+              ),
+              // Positioned widget to place the C letter image on top screen
+              Positioned(
+                top: constraints.maxHeight * 0.4, // Adjust as needed
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Image.asset(
+                    'assets/Cletter.png', // Path to your C letter image
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
+                    height: constraints.maxHeight * 0.2,
+                  ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
+                ),
+              ),
+              // Reset button
+              Positioned(
+                bottom: constraints.maxHeight * 0.02,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: resetGrid,
+                  child: Text('Reset'),
+                ),
+              ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
-          ),
-        ),
+          );
+        },
       ),
     );
   }
 }
 
+class GridPainter4 extends CustomPainter {
+  final List<Offset> tappedSquares;
 
-page1 
+  GridPainter3({required this.tappedSquares});
 
-import 'package:flutter/material.dart';
-
-class Page1 extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      //   title: GestureDetector(
-      //     onTap: () {
-      //       // Navigate to another page when the icon is tapped
-      //       Navigator.push(
-      //         context,
-      //         MaterialPageRoute(builder: (context) => AnotherPage()),
-      //       );
-      //     },
-      //     child: Row(
-      //       children: [
-      //         Padding(
-      //           padding: const EdgeInsets.all(8.0),
-      //           child: CircleAvatar(
-      //             radius: 18,
-      //             backgroundImage: AssetImage('assets/icon_image.png'), // Replace with the actual path to your icon image
-      //           ),
-      //         ),
-      //         SizedBox(width: 8),
-      //         Text(
-      //           'Caption Level 1',
-      //           style: TextStyle(
-      //             fontSize: 16,
-      //             fontWeight: FontWeight.bold,
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/mainbackground.jpg'),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 20),
-              Container(
-                padding: EdgeInsets.all(70),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 226, 220, 220).withOpacity(0.7), // Set the background color and opacity
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Column(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        // Handle easy level button click
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.red,
-                        padding: EdgeInsets.symmetric(horizontal: 40),
-                        textStyle: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      child: Text('Easy'),
-                    ),
-                    SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Handle medium level button click
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.red,
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        textStyle: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      child: Text('Medium'),
-                    ),
-                    SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Handle hard level button click
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.red,
-                        padding: EdgeInsets.symmetric(horizontal: 40),
-                        textStyle: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      child: Text('Hard'),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
+      ..strokeWidth = 3;
+
+    final cellSize = cmToPixels(4);
+    final borderRadius = BorderRadius.circular(cellSize / 2);
+
+    // Draw vertical lines
+    for (double i = 0; i < size.width; i += cellSize) {
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
+    }
+
+    // Draw horizontal lines only in the bottom half
+    for (double i = size.height / 2; i < size.height; i += cellSize) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+
+    final yellowPaint = Paint()..color = Colors.yellowAccent;
+    final borderPaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Adjust border width as needed
+
+    for (final tappedSquare in tappedSquares) {
+      final xIndex = (tappedSquare.dx / cellSize).floor();
+      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
+
+      final x = xIndex * cellSize;
+      final y = yIndex * cellSize + size.height / 2;
+
+      final roundedRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(x, y, cellSize, cellSize),
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
+      );
+
+      // Draw yellow square
+      canvas.drawRRect(roundedRect, yellowPaint);
+
+      // Draw black border around the yellow square
+      canvas.drawRRect(roundedRect, borderPaint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true; // Always repaint to update the tapped squares
+  }
+
+  double cmToPixels(double cm) {
+    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
   }
 }

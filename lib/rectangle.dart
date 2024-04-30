@@ -65,14 +65,38 @@ class _RectangleState extends State<Rectangle>
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("No Device Connected"),
-            content: Text("Please connect a Bluetooth device."),
+            backgroundColor: Colors.white, // Set background color
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0), // Set border radius
+            ),
+            title: Text(
+              "No Device Connected",
+              style: TextStyle(
+                color: Colors.blue,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'ProtestRiot', // Use ProtestRiot font
+              ),
+            ),
+            content: Text(
+              "Please connect a Bluetooth device.",
+              style: TextStyle(
+                fontSize: 16,
+                fontFamily: 'ProtestRiot', // Use ProtestRiot font
+              ),
+            ),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text("OK"),
+                child: Text(
+                  "OK",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'ProtestRiot', // Use ProtestRiot font
+                  ),
+                ),
               ),
             ],
           );
@@ -119,9 +143,9 @@ class _RectangleState extends State<Rectangle>
                         SizedBox(height: 20),
                         if (showCompletedAnimation)
                           Lottie.asset(
-                            'assets/completed.json', // Play the completed animation
-                            width: 250,
-                            height: 250,
+                            'assets/wrong.json', // Play the completed animation
+                            width: 200,
+                            height: 200,
                           ),
                         Spacer(), // Added Spacer widget
                         Align(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:lottie/lottie.dart';
 
 class Alphabet extends StatelessWidget {
   @override
@@ -13,7 +13,7 @@ class Alphabet extends StatelessWidget {
             height: double.infinity,
             width: double.infinity,
             alignment: Alignment.center,
-          ), 
+          ),
           ListView(
             padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
             children: [
@@ -22,8 +22,11 @@ class Alphabet extends StatelessWidget {
                 runSpacing: MediaQuery.of(context).size.width * 0.1,
                 alignment: WrapAlignment.center,
                 children: [
-                for (var letter = 'A'; letter.compareTo('Z') <= 0; letter = String.fromCharCode(letter.codeUnitAt(0) + 1))
-                    ClickableLetterWidget(letter, onLetterTap: () => navigateToPage(context, letter)),
+                  for (var letter = 'A';
+                      letter.compareTo('Z') <= 0;
+                      letter = String.fromCharCode(letter.codeUnitAt(0) + 1))
+                    ClickableLetterWidget(letter,
+                        onLetterTap: () => navigateToPage(context, letter)),
                 ],
               ),
             ],
@@ -37,82 +40,108 @@ class Alphabet extends StatelessWidget {
     // Replace the switch statement with the navigation logic for each letter
     switch (letter) {
       case 'A':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageA()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageA()));
         break;
       case 'B':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageB()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageB()));
         break;
       case 'C':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageC()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageC()));
         break;
       case 'D':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageD()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageD()));
         break;
       case 'E':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageE()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageE()));
         break;
       case 'F':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageF()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageF()));
         break;
       case 'G':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageG()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageG()));
         break;
       case 'H':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageH()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageH()));
         break;
       case 'I':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageI()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageI()));
         break;
       case 'J':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageJ()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageJ()));
         break;
       case 'K':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageK()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageK()));
         break;
       case 'L':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageL()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageL()));
         break;
       case 'M':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageM()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageM()));
         break;
       case 'N':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageN()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageN()));
         break;
       case 'O':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageO()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageO()));
         break;
       case 'P':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageP()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageP()));
         break;
       case 'Q':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageQ()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageQ()));
         break;
       case 'R':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageR()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageR()));
         break;
       case 'S':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageS()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageS()));
         break;
       case 'T':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageT()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageT()));
         break;
       case 'U':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageU()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageU()));
         break;
       case 'V':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageV()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageV()));
         break;
       case 'W':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageW()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageW()));
         break;
       case 'X':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageX()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageX()));
         break;
       case 'Y':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageY()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageY()));
         break;
       case 'Z':
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PageZ()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PageZ()));
         break;
       default:
         print('$letter tapped!'); // Add a default case or handle as needed
@@ -139,7 +168,8 @@ class ClickableLetterWidget extends StatelessWidget {
             image: AssetImage('assets/bubble.png'),
             fit: BoxFit.cover,
           ),
-          borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.05),
+          borderRadius:
+              BorderRadius.circular(MediaQuery.of(context).size.width * 0.05),
         ),
         child: Center(
           child: Text(
@@ -165,10 +195,26 @@ class PageA extends StatefulWidget {
 
 class _PageAState extends State<PageA> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -185,7 +231,10 @@ class _PageAState extends State<PageA> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -194,31 +243,46 @@ class _PageAState extends State<PageA> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Aletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -231,6 +295,18 @@ class _PageAState extends State<PageA> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -255,7 +331,8 @@ class GridPainter extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -278,7 +355,8 @@ class GridPainter extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -299,7 +377,6 @@ class GridPainter extends CustomPainter {
   }
 }
 
-
 class PageB extends StatefulWidget {
   @override
   _PageBState createState() => _PageBState();
@@ -307,10 +384,26 @@ class PageB extends StatefulWidget {
 
 class _PageBState extends State<PageB> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -327,7 +420,10 @@ class _PageBState extends State<PageB> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -336,31 +432,46 @@ class _PageBState extends State<PageB> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter2(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
-              // Positioned widget to place the A letter image on top screen
+              // Positioned widget to place the B letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
-                    'assets/Bletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    'assets/Bletter.png', // Path to your B letter image
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -373,6 +484,18 @@ class _PageBState extends State<PageB> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -397,7 +520,8 @@ class GridPainter2 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -420,7 +544,8 @@ class GridPainter2 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -441,7 +566,6 @@ class GridPainter2 extends CustomPainter {
   }
 }
 
-
 class PageC extends StatefulWidget {
   @override
   _PageCState createState() => _PageCState();
@@ -449,10 +573,26 @@ class PageC extends StatefulWidget {
 
 class _PageCState extends State<PageC> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -469,7 +609,10 @@ class _PageCState extends State<PageC> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -478,31 +621,46 @@ class _PageCState extends State<PageC> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
-              // Positioned widget to place the A letter image on top screen
+              // Positioned widget to place the C letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
-                    'assets/Cletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    'assets/Cletter.png', // Path to your C letter image
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -515,6 +673,18 @@ class _PageCState extends State<PageC> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -539,7 +709,8 @@ class GridPainter3 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -562,7 +733,8 @@ class GridPainter3 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -590,10 +762,26 @@ class PageD extends StatefulWidget {
 
 class _PageDState extends State<PageD> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -610,7 +798,10 @@ class _PageDState extends State<PageD> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -619,31 +810,46 @@ class _PageDState extends State<PageD> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Dletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -656,6 +862,18 @@ class _PageDState extends State<PageD> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -680,7 +898,8 @@ class GridPainter4 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -703,7 +922,8 @@ class GridPainter4 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -731,10 +951,26 @@ class PageE extends StatefulWidget {
 
 class _PageEState extends State<PageE> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -751,7 +987,10 @@ class _PageEState extends State<PageE> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -760,31 +999,46 @@ class _PageEState extends State<PageE> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Eletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -797,6 +1051,18 @@ class _PageEState extends State<PageE> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -821,7 +1087,8 @@ class GridPainter5 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -844,7 +1111,8 @@ class GridPainter5 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -872,10 +1140,26 @@ class PageF extends StatefulWidget {
 
 class _PageFState extends State<PageF> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -892,7 +1176,10 @@ class _PageFState extends State<PageF> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -901,31 +1188,46 @@ class _PageFState extends State<PageF> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Fletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -938,6 +1240,18 @@ class _PageFState extends State<PageF> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -962,7 +1276,8 @@ class GridPainter6 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -985,7 +1300,8 @@ class GridPainter6 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -1006,6 +1322,9 @@ class GridPainter6 extends CustomPainter {
   }
 }
 
+double cmToPixels(double cm) {
+  return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
+}
 
 class PageG extends StatefulWidget {
   @override
@@ -1014,10 +1333,26 @@ class PageG extends StatefulWidget {
 
 class _PageGState extends State<PageG> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -1034,7 +1369,10 @@ class _PageGState extends State<PageG> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -1043,31 +1381,46 @@ class _PageGState extends State<PageG> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Gletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -1080,6 +1433,18 @@ class _PageGState extends State<PageG> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -1104,7 +1469,8 @@ class GridPainter7 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -1127,7 +1493,8 @@ class GridPainter7 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -1147,6 +1514,7 @@ class GridPainter7 extends CustomPainter {
     return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
   }
 }
+
 class PageH extends StatefulWidget {
   @override
   _PageHState createState() => _PageHState();
@@ -1154,10 +1522,26 @@ class PageH extends StatefulWidget {
 
 class _PageHState extends State<PageH> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -1174,7 +1558,10 @@ class _PageHState extends State<PageH> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -1183,31 +1570,46 @@ class _PageHState extends State<PageH> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Hletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -1220,6 +1622,18 @@ class _PageHState extends State<PageH> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -1244,7 +1658,8 @@ class GridPainter8 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -1267,7 +1682,8 @@ class GridPainter8 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -1295,10 +1711,26 @@ class PageI extends StatefulWidget {
 
 class _PageIState extends State<PageI> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -1315,7 +1747,10 @@ class _PageIState extends State<PageI> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -1324,31 +1759,46 @@ class _PageIState extends State<PageI> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Iletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -1361,6 +1811,18 @@ class _PageIState extends State<PageI> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -1385,7 +1847,8 @@ class GridPainter9 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -1408,7 +1871,8 @@ class GridPainter9 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -1436,10 +1900,26 @@ class PageJ extends StatefulWidget {
 
 class _PageJState extends State<PageJ> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -1456,7 +1936,10 @@ class _PageJState extends State<PageJ> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -1465,31 +1948,46 @@ class _PageJState extends State<PageJ> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Jletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -1502,6 +2000,18 @@ class _PageJState extends State<PageJ> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -1526,7 +2036,8 @@ class GridPainter10 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -1549,7 +2060,8 @@ class GridPainter10 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -1570,7 +2082,6 @@ class GridPainter10 extends CustomPainter {
   }
 }
 
-
 class PageK extends StatefulWidget {
   @override
   _PageKState createState() => _PageKState();
@@ -1578,10 +2089,26 @@ class PageK extends StatefulWidget {
 
 class _PageKState extends State<PageK> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -1598,7 +2125,10 @@ class _PageKState extends State<PageK> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -1607,31 +2137,46 @@ class _PageKState extends State<PageK> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Kletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -1644,6 +2189,18 @@ class _PageKState extends State<PageK> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -1668,7 +2225,8 @@ class GridPainter11 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -1691,7 +2249,8 @@ class GridPainter11 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -1712,7 +2271,6 @@ class GridPainter11 extends CustomPainter {
   }
 }
 
-
 class PageL extends StatefulWidget {
   @override
   _PageLState createState() => _PageLState();
@@ -1720,10 +2278,26 @@ class PageL extends StatefulWidget {
 
 class _PageLState extends State<PageL> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -1740,7 +2314,10 @@ class _PageLState extends State<PageL> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -1749,31 +2326,46 @@ class _PageLState extends State<PageL> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Lletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -1786,6 +2378,18 @@ class _PageLState extends State<PageL> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -1810,7 +2414,8 @@ class GridPainter12 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -1833,7 +2438,8 @@ class GridPainter12 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -1854,7 +2460,6 @@ class GridPainter12 extends CustomPainter {
   }
 }
 
-
 class PageM extends StatefulWidget {
   @override
   _PageMState createState() => _PageMState();
@@ -1862,10 +2467,26 @@ class PageM extends StatefulWidget {
 
 class _PageMState extends State<PageM> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -1882,7 +2503,10 @@ class _PageMState extends State<PageM> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -1891,31 +2515,46 @@ class _PageMState extends State<PageM> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Mletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -1928,6 +2567,18 @@ class _PageMState extends State<PageM> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -1952,7 +2603,8 @@ class GridPainter13 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -1975,7 +2627,8 @@ class GridPainter13 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -2003,10 +2656,26 @@ class PageN extends StatefulWidget {
 
 class _PageNState extends State<PageN> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -2023,7 +2692,10 @@ class _PageNState extends State<PageN> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -2032,31 +2704,46 @@ class _PageNState extends State<PageN> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Nletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -2069,6 +2756,18 @@ class _PageNState extends State<PageN> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -2093,7 +2792,8 @@ class GridPainter14 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -2116,7 +2816,8 @@ class GridPainter14 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -2137,7 +2838,6 @@ class GridPainter14 extends CustomPainter {
   }
 }
 
-
 class PageO extends StatefulWidget {
   @override
   _PageOState createState() => _PageOState();
@@ -2145,10 +2845,26 @@ class PageO extends StatefulWidget {
 
 class _PageOState extends State<PageO> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -2165,7 +2881,10 @@ class _PageOState extends State<PageO> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -2174,31 +2893,46 @@ class _PageOState extends State<PageO> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Oletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -2211,6 +2945,18 @@ class _PageOState extends State<PageO> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -2235,7 +2981,8 @@ class GridPainter15 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -2258,7 +3005,8 @@ class GridPainter15 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -2286,10 +3034,26 @@ class PageP extends StatefulWidget {
 
 class _PagePState extends State<PageP> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -2306,7 +3070,10 @@ class _PagePState extends State<PageP> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -2315,31 +3082,46 @@ class _PagePState extends State<PageP> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Pletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -2352,6 +3134,18 @@ class _PagePState extends State<PageP> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -2376,7 +3170,8 @@ class GridPainter16 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -2399,7 +3194,8 @@ class GridPainter16 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -2420,7 +3216,6 @@ class GridPainter16 extends CustomPainter {
   }
 }
 
-
 class PageQ extends StatefulWidget {
   @override
   _PageQState createState() => _PageQState();
@@ -2428,10 +3223,26 @@ class PageQ extends StatefulWidget {
 
 class _PageQState extends State<PageQ> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -2448,7 +3259,10 @@ class _PageQState extends State<PageQ> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -2457,31 +3271,46 @@ class _PageQState extends State<PageQ> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Qletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -2494,6 +3323,18 @@ class _PageQState extends State<PageQ> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -2518,7 +3359,8 @@ class GridPainter17 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -2541,7 +3383,8 @@ class GridPainter17 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -2562,7 +3405,6 @@ class GridPainter17 extends CustomPainter {
   }
 }
 
-
 class PageR extends StatefulWidget {
   @override
   _PageRState createState() => _PageRState();
@@ -2570,10 +3412,26 @@ class PageR extends StatefulWidget {
 
 class _PageRState extends State<PageR> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -2590,7 +3448,10 @@ class _PageRState extends State<PageR> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -2599,31 +3460,46 @@ class _PageRState extends State<PageR> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Rletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -2636,6 +3512,18 @@ class _PageRState extends State<PageR> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -2660,7 +3548,8 @@ class GridPainter18 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -2683,7 +3572,8 @@ class GridPainter18 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -2711,10 +3601,26 @@ class PageS extends StatefulWidget {
 
 class _PageSState extends State<PageS> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -2731,7 +3637,10 @@ class _PageSState extends State<PageS> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -2740,31 +3649,46 @@ class _PageSState extends State<PageS> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Sletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -2777,6 +3701,18 @@ class _PageSState extends State<PageS> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -2801,7 +3737,8 @@ class GridPainter19 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -2824,7 +3761,8 @@ class GridPainter19 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -2852,10 +3790,26 @@ class PageT extends StatefulWidget {
 
 class _PageTState extends State<PageT> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -2872,7 +3826,10 @@ class _PageTState extends State<PageT> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -2881,31 +3838,46 @@ class _PageTState extends State<PageT> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Tletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -2918,6 +3890,18 @@ class _PageTState extends State<PageT> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -2942,7 +3926,8 @@ class GridPainter20 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -2965,7 +3950,8 @@ class GridPainter20 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -2986,7 +3972,6 @@ class GridPainter20 extends CustomPainter {
   }
 }
 
-
 class PageU extends StatefulWidget {
   @override
   _PageUState createState() => _PageUState();
@@ -2994,10 +3979,26 @@ class PageU extends StatefulWidget {
 
 class _PageUState extends State<PageU> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -3014,7 +4015,10 @@ class _PageUState extends State<PageU> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -3023,31 +4027,46 @@ class _PageUState extends State<PageU> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Uletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -3060,6 +4079,18 @@ class _PageUState extends State<PageU> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -3084,7 +4115,8 @@ class GridPainter21 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -3107,7 +4139,8 @@ class GridPainter21 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -3135,10 +4168,26 @@ class PageV extends StatefulWidget {
 
 class _PageVState extends State<PageV> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -3155,7 +4204,10 @@ class _PageVState extends State<PageV> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -3164,31 +4216,46 @@ class _PageVState extends State<PageV> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Vletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -3201,6 +4268,18 @@ class _PageVState extends State<PageV> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -3225,7 +4304,8 @@ class GridPainter22 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -3248,7 +4328,8 @@ class GridPainter22 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -3276,10 +4357,26 @@ class PageW extends StatefulWidget {
 
 class _PageWState extends State<PageW> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -3296,7 +4393,10 @@ class _PageWState extends State<PageW> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -3305,31 +4405,46 @@ class _PageWState extends State<PageW> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Wletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -3342,6 +4457,18 @@ class _PageWState extends State<PageW> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -3366,7 +4493,8 @@ class GridPainter23 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -3389,7 +4517,8 @@ class GridPainter23 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -3410,7 +4539,6 @@ class GridPainter23 extends CustomPainter {
   }
 }
 
-
 class PageX extends StatefulWidget {
   @override
   _PageXState createState() => _PageXState();
@@ -3418,10 +4546,26 @@ class PageX extends StatefulWidget {
 
 class _PageXState extends State<PageX> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -3438,7 +4582,10 @@ class _PageXState extends State<PageX> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -3447,31 +4594,46 @@ class _PageXState extends State<PageX> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Xletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -3484,6 +4646,18 @@ class _PageXState extends State<PageX> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -3508,7 +4682,8 @@ class GridPainter24 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -3531,7 +4706,8 @@ class GridPainter24 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -3559,10 +4735,26 @@ class PageY extends StatefulWidget {
 
 class _PageYState extends State<PageY> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -3579,7 +4771,10 @@ class _PageYState extends State<PageY> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -3588,31 +4783,46 @@ class _PageYState extends State<PageY> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Yletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -3625,6 +4835,18 @@ class _PageYState extends State<PageY> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -3649,7 +4871,8 @@ class GridPainter25 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -3672,7 +4895,8 @@ class GridPainter25 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square
@@ -3700,10 +4924,26 @@ class PageZ extends StatefulWidget {
 
 class _PageZState extends State<PageZ> {
   final List<Offset> tappedSquares = [];
+  bool showCompletedAnimation = false;
 
   void resetGrid() {
     setState(() {
       tappedSquares.clear();
+    });
+  }
+
+  void checkGrid() {
+    // Implement your logic for checking the grid here
+    print('Checking grid...');
+    // Show completed animation
+    setState(() {
+      showCompletedAnimation = true;
+    });
+    // Hide completed animation after 3 seconds
+    Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
     });
   }
 
@@ -3720,7 +4960,10 @@ class _PageZState extends State<PageZ> {
                 height: constraints.maxHeight,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Color.fromARGB(255, 125, 163, 208), Colors.blue.shade900],
+                    colors: [
+                      Color.fromARGB(255, 125, 163, 208),
+                      Colors.blue.shade900
+                    ],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                   ),
@@ -3729,31 +4972,46 @@ class _PageZState extends State<PageZ> {
               // Grid Background with Dark Blue Color
               Container(
                 width: constraints.maxWidth,
-                height: constraints.maxHeight,
+                height: constraints.maxHeight /
+                    2, // Adjusted height to cover only the bottom half
                 child: GestureDetector(
                   onTapDown: (details) {
                     setState(() {
-                      final RenderBox box = context.findRenderObject() as RenderBox;
-                      final Offset localOffset = box.globalToLocal(details.globalPosition);
+                      final RenderBox box =
+                          context.findRenderObject() as RenderBox;
+                      final Offset localOffset =
+                          box.globalToLocal(details.globalPosition);
                       tappedSquares.add(localOffset);
                     });
                   },
                   child: CustomPaint(
-                    painter: GridPainter(tappedSquares: tappedSquares), // Custom painter for drawing grid lines
+                    painter: GridPainter(
+                        tappedSquares:
+                            tappedSquares), // Custom painter for drawing grid lines
                   ),
                 ),
               ),
               // Positioned widget to place the A letter image on top screen
               Positioned(
-                top: constraints.maxHeight * 0.05, // Adjust as needed
+                top: constraints.maxHeight * 0.4, // Adjust as needed
                 left: 0,
                 right: 0,
                 child: Center(
                   child: Image.asset(
                     'assets/Zletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.4, // Adjust size as needed
+                    width: constraints.maxWidth * 0.3, // Adjust size as needed
                     height: constraints.maxHeight * 0.2,
                   ),
+                ),
+              ),
+              // Check button
+              Positioned(
+                bottom: constraints.maxHeight * 0.1,
+                left: constraints.maxWidth * 0.3,
+                right: constraints.maxWidth * 0.3,
+                child: ElevatedButton(
+                  onPressed: checkGrid,
+                  child: Text('Check'),
                 ),
               ),
               // Reset button
@@ -3766,6 +5024,18 @@ class _PageZState extends State<PageZ> {
                   child: Text('Reset'),
                 ),
               ),
+              // Completed Animation
+              if (showCompletedAnimation)
+                Positioned(
+                  bottom: constraints.maxHeight * 0.1,
+                  left: constraints.maxWidth * 0.2,
+                  right: constraints.maxWidth * 0.2,
+                  child: Lottie.asset(
+                    'assets/completed.json',
+                    width: constraints.maxWidth * 0.4,
+                    height: constraints.maxHeight * 0.4,
+                  ),
+                ),
             ],
           );
         },
@@ -3790,7 +5060,8 @@ class GridPainter26 extends CustomPainter {
 
     // Draw vertical lines
     for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(Offset(i, size.height / 2), Offset(i, size.height), paint);
+      canvas.drawLine(
+          Offset(i, size.height / 2), Offset(i, size.height), paint);
     }
 
     // Draw horizontal lines only in the bottom half
@@ -3813,7 +5084,8 @@ class GridPainter26 extends CustomPainter {
 
       final roundedRect = RRect.fromRectAndRadius(
         Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(cellSize / 4), // Adjust the radius for desired roundness
+        Radius.circular(
+            cellSize / 4), // Adjust the radius for desired roundness
       );
 
       // Draw yellow square

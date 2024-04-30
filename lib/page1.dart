@@ -97,8 +97,7 @@ class Page1 extends StatelessWidget {
                             _playSound();
                             Navigator.push(
                               context,
-                              MaterialPageRoute(
-                                  builder: (context) => medium()),
+                              MaterialPageRoute(builder: (context) => medium()),
                             );
                           },
                           style: ButtonStyle(
@@ -212,8 +211,8 @@ class Page1 extends StatelessWidget {
                 ),
                 child: IconButton(
                   icon: Icon(Icons.warning, // Use the warning icon
-                    color: Color.fromARGB(255, 39, 156, 240),
-                    size: MediaQuery.of(context).size.width * 0.08),
+                      color: Color.fromARGB(255, 39, 156, 240),
+                      size: MediaQuery.of(context).size.width * 0.08),
                   onPressed: () {
                     _playSound(); // Play sound when warning icon button is pressed
                     _showInfoPopup(context); // Show the information popup
@@ -236,43 +235,44 @@ class Page1 extends StatelessWidget {
     }
   }
 
- void _showInfoPopup(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      backgroundColor: Color.fromARGB(255, 51, 100, 141), // Set background color to blue
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0), // Add some border radius
-      ),
-      title: Text(
-        'Warning',
-        style: TextStyle(
-          color: Colors.white, // Set text color to white
-          fontFamily: 'Comic Sans MS', // Use a cartoonish font
+  void _showInfoPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor:
+            Color.fromARGB(255, 51, 100, 141), // Set background color to blue
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0), // Add some border radius
         ),
-      ),
-      content: Text(
-        'This section is still in development. Certain functionalities may not work.',
-        style: TextStyle(
-          color: Colors.white, // Set text color to white
-          fontFamily: 'Comic Sans MS', // Use a cartoonish font
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: Text(
-            'OK',
-            style: TextStyle(
-              color: Colors.white, // Set text color to white
-              fontFamily: 'Comic Sans MS', // Use a cartoonish font
-            ),
+        title: Text(
+          'Warning',
+          style: TextStyle(
+            color: Colors.white, // Set text color to white
+            fontFamily: 'Comic Sans MS', // Use a cartoonish font
           ),
         ),
-      ],
-    ),
-  );
-}
+        content: Text(
+          'This section is still in development. Certain functionalities may not work.',
+          style: TextStyle(
+            color: Colors.white, // Set text color to white
+            fontFamily: 'Comic Sans MS', // Use a cartoonish font
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: Text(
+              'OK',
+              style: TextStyle(
+                color: Colors.white, // Set text color to white
+                fontFamily: 'Comic Sans MS', // Use a cartoonish font
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
