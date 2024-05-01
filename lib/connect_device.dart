@@ -61,13 +61,21 @@ class _BPageState extends State<BPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Connect'),
+        title: Text(
+          'DEVICES',
+          style: TextStyle(fontSize: 30, fontFamily: 'ProtestRiot'),
+        ),
+        backgroundColor:
+            Color.fromARGB(255, 39, 156, 240), // Set AppBar color to blue
       ),
+      backgroundColor:
+          Color.fromARGB(255, 39, 156, 240), // Set background color to blue
       body: Column(
         children: [
           Text(
             'Connected Devices',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: 20, fontFamily: 'ProtestRiot', color: Colors.black),
           ),
           Expanded(
             child: ListView.builder(
@@ -75,11 +83,23 @@ class _BPageState extends State<BPage> {
               itemBuilder: (context, index) {
                 final device = _connectedDevices[index];
                 return ListTile(
-                  title: Text(device.name),
-                  subtitle: Text(device.id.toString()),
+                  title: Text(
+                    device.platformName,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'ProtestRiot'), // Set font family
+                  ),
+                  subtitle: Text(
+                    device.remoteId.toString(),
+                    style: TextStyle(color: Colors.black),
+                  ),
                   trailing: ElevatedButton(
                     onPressed: () => disconnectFromDevice(device),
-                    child: Text('Disconnect'),
+                    child: Text(
+                      'Disconnect',
+                      style: TextStyle(
+                          color: Colors.black, fontFamily: 'ProtestRiot'),
+                    ),
                   ),
                 );
               },
@@ -88,7 +108,8 @@ class _BPageState extends State<BPage> {
           Divider(),
           Text(
             'Available Devices',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontSize: 20, fontFamily: 'ProtestRiot', color: Colors.black),
           ),
           Expanded(
             child: ListView.builder(
@@ -96,8 +117,16 @@ class _BPageState extends State<BPage> {
               itemBuilder: (context, index) {
                 final device = _availableDevices[index]; // Update this line
                 return ListTile(
-                  title: Text(device.name),
-                  subtitle: Text(device.id.toString()),
+                  title: Text(
+                    device.platformName,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'ProtestRiot'), // Set font family
+                  ),
+                  subtitle: Text(
+                    device.remoteId.toString(),
+                    style: TextStyle(color: Colors.black),
+                  ),
                   onTap: () => connectToDevice(device),
                 );
               },

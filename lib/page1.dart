@@ -248,14 +248,14 @@ class Page1 extends StatelessWidget {
           'Warning',
           style: TextStyle(
             color: Colors.white, // Set text color to white
-            fontFamily: 'Comic Sans MS', // Use a cartoonish font
+            fontFamily: 'ProtestRiot', // Use a cartoonish font
           ),
         ),
         content: Text(
           'This section is still in development. Certain functionalities may not work.',
           style: TextStyle(
             color: Colors.white, // Set text color to white
-            fontFamily: 'Comic Sans MS', // Use a cartoonish font
+            fontFamily: 'ProtestRiot', // Use a cartoonish font
           ),
         ),
         actions: [

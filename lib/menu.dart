@@ -45,7 +45,8 @@ class Menu extends StatelessWidget {
           LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
               return Container(
-                color: Colors.transparent, // Set Container background color to transparent
+                color: Colors
+                    .transparent, // Set Container background color to transparent
                 padding: EdgeInsets.all(20.0),
                 child: Center(
                   child: Column(
@@ -76,11 +77,12 @@ class Menu extends StatelessWidget {
                           playSound('assets/click.mp3');
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => ReceiveData()),
+                            MaterialPageRoute(
+                                builder: (context) => ReceiveData()),
                           );
                         },
                         child: Text(
-                          'Mini Games',
+                          'Test Page',
                           style: TextStyle(
                             color: Color.fromARGB(255, 188, 169, 24),
                             fontSize: MediaQuery.of(context).size.width * 0.1,
