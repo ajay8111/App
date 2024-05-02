@@ -23,6 +23,12 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
   // Initialize an instance of BService
   final BService bluetoothService = BService();
 
+  // Bluetooth characteristics
+  late BluetoothCharacteristic characteristic;
+  late BluetoothCharacteristic notifyCharacteristic;
+
+  String _message = '';
+
   @override
   void initState() {
     super.initState();
@@ -65,6 +71,7 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
       setState(() {
         bluetoothService.isConnected = true;
       });
+      _getServiceAndCharacteristic(connectedDevice);
     } catch (e) {
       // If not connected, show the pop-up message
       showDialog(
@@ -111,12 +118,84 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
     }
   }
 
+  void _getServiceAndCharacteristic(BluetoothDevice device) async {
+    List<BluetoothService> services = await device.discoverServices();
+    services.forEach((service) {
+      service.characteristics.forEach((char) {
+        if (char.uuid.toString() == '2a19') {
+          notifyCharacteristic = char;
+        }
+        if (char.uuid.toString() == '6e400003-b5a3-f393-e0a9-e50e24dcca9e') {
+          characteristic = char;
+          _listenCharacteristic();
+        }
+      });
+    });
+
+    // Set the notify characteristic to listen for magnetic field detection
+    if (notifyCharacteristic != null) {
+      await notifyCharacteristic.setNotifyValue(true);
+      notifyCharacteristic.value.listen((value) {
+        String message = String.fromCharCodes(value);
+        if (message == 'Magnetic Field Detected') {
+          setState(() {
+            _message = 'magnetic detected';
+            if (_message == 'magnetic detected') {
+              startAnimation();
+            }
+          });
+        }
+      });
+    }
+  }
+
+  void _listenCharacteristic() {
+    Stream<List<int>> stream = characteristic.lastValueStream;
+    if (stream != null) {
+      stream.listen((value) {
+        String message = String.fromCharCodes(value);
+        if (message == 'Magnetic Field Detected') {
+          setState(() {
+            _message = 'magnetic detected';
+            if (_message == 'magnetic detected') {
+              startAnimation();
+            }
+          });
+        }
+      });
+    }
+  }
+
   void startAnimation() {
     setState(() {
       showCompletedAnimation = true;
     });
     // Delay hiding animation after 10 seconds
     Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
+    });
+  }
+
+  void _handleCheckButtonPressed() {
+    // Start animation when the button is pressed
+    startAnimation();
+
+    // Determine which animation to display based on the message
+    setState(() {
+      showCompletedAnimation = _message == 'Magnetic Field Detected';
+    });
+
+    // If the message is not "Magnetic Field Detected", display wrong.json
+    if (_message != 'Magnetic Field Detected') {
+      setState(() {
+        showCompletedAnimation = true;
+      });
+    }
+
+    // Delay hiding animation after 3 seconds
+    Future.delayed(Duration(seconds: 5), () {
       setState(() {
         showCompletedAnimation = false;
       });
@@ -149,7 +228,9 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
                         SizedBox(height: 20),
                         if (showCompletedAnimation)
                           Lottie.asset(
-                            'assets/wrong.json',
+                            _message != 'magnetic detected'
+                                ? 'assets/wrong.json'
+                                : 'assets/completed.json',
                             width: 200,
                             height: 200,
                           ),
@@ -162,10 +243,8 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
                               onPressed: () {
                                 // Check connection status again when button is pressed
                                 checkConnectionStatus();
-                                // Start animation only if connected
-                                if (bluetoothService.isConnected) {
-                                  startAnimation();
-                                }
+                                // Handle button press here
+                                _handleCheckButtonPressed();
                               },
                               style: ButtonStyle(
                                 backgroundColor:
@@ -183,12 +262,12 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
                                 height: 50,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  'Check',
+                                  'ChECK',
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black,
-                                    fontFamily: 'ComicSans',
+                                    fontFamily: 'ProtestRiot',
                                   ),
                                 ),
                               ),
