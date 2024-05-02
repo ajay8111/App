@@ -74,7 +74,7 @@ class _TriangleState extends State<Triangle>
               borderRadius: BorderRadius.circular(20.0), // Set border radius
             ),
             title: Text(
-              "No Device Connected",
+              "No Board Connected",
               style: TextStyle(
                 color: Colors.blue,
                 fontSize: 20,
@@ -83,7 +83,7 @@ class _TriangleState extends State<Triangle>
               ),
             ),
             content: Text(
-              "Please connect a Bluetooth device.",
+              "Please connect with Board.",
               style: TextStyle(
                 fontSize: 16,
                 fontFamily: 'ProtestRiot', // Use ProtestRiot font

@@ -252,7 +252,7 @@ class Page1 extends StatelessWidget {
           ),
         ),
         content: Text(
-          'This section is still in development. Certain functionalities may not work.',
+          'Some section is still in development.Stay tuned for updates.',
           style: TextStyle(
             color: Colors.white, // Set text color to white
             fontFamily: 'ProtestRiot', // Use a cartoonish font
@@ -267,7 +267,7 @@ class Page1 extends StatelessWidget {
               'OK',
               style: TextStyle(
                 color: Colors.white, // Set text color to white
-                fontFamily: 'Comic Sans MS', // Use a cartoonish font
+                fontFamily: 'ProtestRiot', // Use a cartoonish font
               ),
             ),
           ),

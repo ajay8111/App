@@ -83,7 +83,7 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
               borderRadius: BorderRadius.circular(20.0), // Set border radius
             ),
             title: Text(
-              "No Device Connected",
+              "No Board Connected",
               style: TextStyle(
                 color: Colors.blue,
                 fontSize: 20,
@@ -92,7 +92,7 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
               ),
             ),
             content: Text(
-              "Please connect a Bluetooth device.",
+              "Please connect with Board",
               style: TextStyle(
                 fontSize: 16,
                 fontFamily: 'ProtestRiot', // Use ProtestRiot font
