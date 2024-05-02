@@ -262,7 +262,7 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
                                 height: 50,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  'ChECK',
+                                  'CHECK',
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,

@@ -234,12 +234,12 @@ class _TriangleState extends State<Triangle>
                                 height: 50,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  'Check',
+                                  'CHECK',
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black, // Text color
-                                    fontFamily: 'ComicSans', // Text font
+                                    fontFamily: 'ProtestRiot', // Text font
                                   ),
                                 ),
                               ),

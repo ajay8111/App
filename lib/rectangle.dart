@@ -239,7 +239,7 @@ class _RectangleState extends State<Rectangle>
                                 height: 50,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  'ChECK',
+                                  'CHECK',
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
