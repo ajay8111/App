@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart'; // Import the lottie package
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:lottie/lottie.dart';
 import 'bluetooth.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+
+void main() {
+  runApp(MaterialApp(
+    home: Rectangle(),
+  ));
+}
 
 class Rectangle extends StatefulWidget {
   @override
@@ -13,10 +19,16 @@ class _RectangleState extends State<Rectangle>
   late AnimationController _animationController;
   late Animation<Gradient> _animation;
 
-  bool showCompletedAnimation = false;
-  bool isConnected = false;
+  bool showCompletedAnimation = false; // Define showCompletedAnimation
 
+  // Initialize an instance of BService
   final BService bluetoothService = BService();
+
+  // Bluetooth characteristics
+  late BluetoothCharacteristic characteristic;
+  late BluetoothCharacteristic notifyCharacteristic;
+
+  String _message = '';
 
   @override
   void initState() {
@@ -50,6 +62,7 @@ class _RectangleState extends State<Rectangle>
     checkConnectionStatus();
   }
 
+  // Function to check connection status and set the animation accordingly
   void checkConnectionStatus() async {
     try {
       // Get the connected device
@@ -57,8 +70,9 @@ class _RectangleState extends State<Rectangle>
           await bluetoothService.getConnectedDevice();
       // If connected, set the isConnected flag to true
       setState(() {
-        isConnected = true;
+        bluetoothService.isConnected = true;
       });
+      _getServiceAndCharacteristic(connectedDevice);
     } catch (e) {
       // If not connected, show the pop-up message
       showDialog(
@@ -105,12 +119,60 @@ class _RectangleState extends State<Rectangle>
     }
   }
 
+  void _getServiceAndCharacteristic(BluetoothDevice device) async {
+    List<BluetoothService> services = await device.discoverServices();
+    services.forEach((service) {
+      service.characteristics.forEach((char) {
+        if (char.uuid.toString() == '2a19') {
+          notifyCharacteristic = char;
+        }
+        if (char.uuid.toString() == '6e400003-b5a3-f393-e0a9-e50e24dcca9e') {
+          characteristic = char;
+          _listenCharacteristic();
+        }
+      });
+    });
+
+    // Set the notify characteristic to listen for magnetic field detection
+    if (notifyCharacteristic != null) {
+      await notifyCharacteristic.setNotifyValue(true);
+      notifyCharacteristic.value.listen((value) {
+        String message = String.fromCharCodes(value);
+        if (message == 'Magnetic Field Detected') {
+          setState(() {
+            _message = 'Magnetic Field Detected';
+            if (_message == 'Magnetic Field Detected') {
+              startAnimation();
+            }
+          });
+        }
+      });
+    }
+  }
+
+  void _listenCharacteristic() {
+    Stream<List<int>> stream = characteristic.lastValueStream;
+    if (stream != null) {
+      stream.listen((value) {
+        String message = String.fromCharCodes(value);
+        if (message == 'Magnetic Field Detected') {
+          setState(() {
+            _message = 'Magnetic Field Detected';
+            if (_message == 'Magnetic Field Detected') {
+              startAnimation();
+            }
+          });
+        }
+      });
+    }
+  }
+
   void startAnimation() {
     setState(() {
       showCompletedAnimation = true;
     });
     // Delay hiding animation after 10 seconds
-    Future.delayed(Duration(seconds: 10), () {
+    Future.delayed(Duration(seconds: 5), () {
       setState(() {
         showCompletedAnimation = false;
       });
@@ -136,18 +198,20 @@ class _RectangleState extends State<Rectangle>
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Lottie.asset(
-                          'assets/rectangle.json', // Use the Lottie.asset widget
+                          'assets/rectangle.json',
                           width: 300,
                           height: 300,
                         ),
                         SizedBox(height: 20),
                         if (showCompletedAnimation)
                           Lottie.asset(
-                            'assets/wrong.json', // Play the completed animation
+                            _message == 'Magnetic Field Detected'
+                                ? 'assets/completed.json'
+                                : 'assets/wrong.json',
                             width: 200,
                             height: 200,
                           ),
-                        Spacer(), // Added Spacer widget
+                        Spacer(),
                         Align(
                           alignment: Alignment.bottomCenter,
                           child: Padding(
@@ -156,20 +220,17 @@ class _RectangleState extends State<Rectangle>
                               onPressed: () {
                                 // Check connection status again when button is pressed
                                 checkConnectionStatus();
-                                // Start animation only if connected
-                                if (isConnected) {
-                                  startAnimation();
-                                }
+                                // Handle button press here
+                                startAnimation();
                               },
                               style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        Colors.yellow), // Set background color
+                                        Colors.yellow),
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        20), // Button border radius
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
                               ),
@@ -178,12 +239,12 @@ class _RectangleState extends State<Rectangle>
                                 height: 50,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  'Check',
+                                  'ChECK',
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black, // Text color
-                                    fontFamily: 'ComicSans', // Text font
+                                    color: Colors.black,
+                                    fontFamily: 'ProtestRiot',
                                   ),
                                 ),
                               ),
@@ -236,10 +297,4 @@ class LinearGradientTween extends Tween<Gradient> {
   @override
   Gradient lerp(double t) =>
       LinearGradient.lerp(begin as LinearGradient?, end as LinearGradient?, t)!;
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: Rectangle(),
-  ));
 }

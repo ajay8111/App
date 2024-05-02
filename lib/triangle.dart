@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart'; // Import the lottie package
+import 'package:lottie/lottie.dart';
 import 'bluetooth.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart'; // Import your BService class
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 class Triangle extends StatefulWidget {
   @override
@@ -15,6 +15,7 @@ class _TriangleState extends State<Triangle>
 
   bool showCompletedAnimation = false;
   bool isConnected = false;
+  String _message = '';
 
   // Initialize an instance of BService
   final BService bluetoothService = BService();
@@ -61,6 +62,7 @@ class _TriangleState extends State<Triangle>
       setState(() {
         isConnected = true;
       });
+      _getServiceAndCharacteristic(connectedDevice);
     } catch (e) {
       // If not connected, show the pop-up message
       showDialog(
@@ -107,12 +109,64 @@ class _TriangleState extends State<Triangle>
     }
   }
 
+  void _getServiceAndCharacteristic(BluetoothDevice device) async {
+    List<BluetoothService> services = await device.discoverServices();
+    services.forEach((service) {
+      service.characteristics.forEach((char) {
+        if (char.uuid.toString() == '2a19') {
+          _listenCharacteristic(char);
+        }
+      });
+    });
+  }
+
+  void _listenCharacteristic(BluetoothCharacteristic characteristic) async {
+    if (characteristic.properties.notify) {
+      await characteristic.setNotifyValue(true);
+      characteristic.value.listen((value) {
+        String message = String.fromCharCodes(value);
+        if (message == 'Magnetic Field Detected') {
+          setState(() {
+            _message = 'Magnetic Field Detected';
+            if (_message == 'Magnetic Field Detected') {
+              startAnimation();
+            }
+          });
+        }
+      });
+    }
+  }
+
   void startAnimation() {
     setState(() {
       showCompletedAnimation = true;
     });
     // Delay hiding animation after 10 seconds
     Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+      });
+    });
+  }
+
+  void _handleCheckButtonPressed() {
+    // Start animation when the button is pressed
+    startAnimation();
+
+    // Determine which animation to display based on the message
+    setState(() {
+      showCompletedAnimation = _message == 'Magnetic Field Detected';
+    });
+
+    // If the message is not "Magnetic Field Detected", display wrong.json
+    if (_message != 'Magnetic Field Detected') {
+      setState(() {
+        showCompletedAnimation = true;
+      });
+    }
+
+    // Delay hiding animation after 3 seconds
+    Future.delayed(Duration(seconds: 5), () {
       setState(() {
         showCompletedAnimation = false;
       });
@@ -145,7 +199,9 @@ class _TriangleState extends State<Triangle>
                         SizedBox(height: 20),
                         if (showCompletedAnimation)
                           Lottie.asset(
-                            'assets/wrong.json',
+                            _message != 'Magnetic Field Detected'
+                                ? 'assets/wrong.json'
+                                : 'assets/completed.json',
                             width: 200,
                             height: 200,
                           ),
@@ -158,10 +214,8 @@ class _TriangleState extends State<Triangle>
                               onPressed: () {
                                 // Check connection status again when button is pressed
                                 checkConnectionStatus();
-                                // Start animation only if connected
-                                if (isConnected) {
-                                  startAnimation();
-                                }
+                                // Handle button press here
+                                _handleCheckButtonPressed();
                               },
                               style: ButtonStyle(
                                 backgroundColor:
