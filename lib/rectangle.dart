@@ -3,12 +3,6 @@ import 'package:lottie/lottie.dart';
 import 'bluetooth.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: Rectangle(),
-  ));
-}
-
 class Rectangle extends StatefulWidget {
   @override
   _RectangleState createState() => _RectangleState();
@@ -20,6 +14,7 @@ class _RectangleState extends State<Rectangle>
   late Animation<Gradient> _animation;
 
   bool showCompletedAnimation = false; // Define showCompletedAnimation
+  bool magneticFieldDetected = false;
 
   // Initialize an instance of BService
   final BService bluetoothService = BService();
@@ -141,9 +136,8 @@ class _RectangleState extends State<Rectangle>
         if (message == 'Magnetic Field Detected') {
           setState(() {
             _message = 'Magnetic Field Detected';
-            if (_message == 'Magnetic Field Detected') {
-              startAnimation();
-            }
+            magneticFieldDetected = true;
+            startAnimation();
           });
         }
       });
@@ -158,9 +152,8 @@ class _RectangleState extends State<Rectangle>
         if (message == 'Magnetic Field Detected') {
           setState(() {
             _message = 'Magnetic Field Detected';
-            if (_message == 'Magnetic Field Detected') {
-              startAnimation();
-            }
+            magneticFieldDetected = true;
+            startAnimation();
           });
         }
       });
@@ -175,8 +168,14 @@ class _RectangleState extends State<Rectangle>
     Future.delayed(Duration(seconds: 5), () {
       setState(() {
         showCompletedAnimation = false;
+        magneticFieldDetected = false;
       });
     });
+  }
+
+  void _handleCheckButtonPressed() {
+    // Start animation when the button is pressed
+    startAnimation();
   }
 
   @override
@@ -203,11 +202,15 @@ class _RectangleState extends State<Rectangle>
                           height: 300,
                         ),
                         SizedBox(height: 20),
-                        if (showCompletedAnimation)
+                        if (showCompletedAnimation && magneticFieldDetected)
                           Lottie.asset(
-                            _message == 'Magnetic Field Detected'
-                                ? 'assets/completed.json'
-                                : 'assets/wrong.json',
+                            'assets/completed.json',
+                            width: 200,
+                            height: 200,
+                          ),
+                        if (showCompletedAnimation && !magneticFieldDetected)
+                          Lottie.asset(
+                            'assets/wrong.json',
                             width: 200,
                             height: 200,
                           ),
@@ -221,7 +224,7 @@ class _RectangleState extends State<Rectangle>
                                 // Check connection status again when button is pressed
                                 checkConnectionStatus();
                                 // Handle button press here
-                                startAnimation();
+                                _handleCheckButtonPressed();
                               },
                               style: ButtonStyle(
                                 backgroundColor:

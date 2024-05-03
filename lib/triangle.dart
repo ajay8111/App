@@ -13,12 +13,17 @@ class _TriangleState extends State<Triangle>
   late AnimationController _animationController;
   late Animation<Gradient> _animation;
 
-  bool showCompletedAnimation = false;
-  bool isConnected = false;
-  String _message = '';
+  bool showCompletedAnimation = false; // Define showCompletedAnimation
+  bool magneticFieldDetected = false;
 
   // Initialize an instance of BService
   final BService bluetoothService = BService();
+
+  // Bluetooth characteristics
+  late BluetoothCharacteristic characteristic;
+  late BluetoothCharacteristic notifyCharacteristic;
+
+  String _message = '';
 
   @override
   void initState() {
@@ -60,7 +65,7 @@ class _TriangleState extends State<Triangle>
           await bluetoothService.getConnectedDevice();
       // If connected, set the isConnected flag to true
       setState(() {
-        isConnected = true;
+        bluetoothService.isConnected = true;
       });
       _getServiceAndCharacteristic(connectedDevice);
     } catch (e) {
@@ -114,23 +119,41 @@ class _TriangleState extends State<Triangle>
     services.forEach((service) {
       service.characteristics.forEach((char) {
         if (char.uuid.toString() == '2a19') {
-          _listenCharacteristic(char);
+          notifyCharacteristic = char;
+        }
+        if (char.uuid.toString() == '6e400003-b5a3-f393-e0a9-e50e24dcca9e') {
+          characteristic = char;
+          _listenCharacteristic();
         }
       });
     });
-  }
 
-  void _listenCharacteristic(BluetoothCharacteristic characteristic) async {
-    if (characteristic.properties.notify) {
-      await characteristic.setNotifyValue(true);
-      characteristic.value.listen((value) {
+    // Set the notify characteristic to listen for magnetic field detection
+    if (notifyCharacteristic != null) {
+      await notifyCharacteristic.setNotifyValue(true);
+      notifyCharacteristic.value.listen((value) {
         String message = String.fromCharCodes(value);
         if (message == 'Magnetic Field Detected') {
           setState(() {
             _message = 'Magnetic Field Detected';
-            if (_message == 'Magnetic Field Detected') {
-              startAnimation();
-            }
+            magneticFieldDetected = true;
+            startAnimation();
+          });
+        }
+      });
+    }
+  }
+
+  void _listenCharacteristic() {
+    Stream<List<int>> stream = characteristic.lastValueStream;
+    if (stream != null) {
+      stream.listen((value) {
+        String message = String.fromCharCodes(value);
+        if (message == 'Magnetic Field Detected') {
+          setState(() {
+            _message = 'Magnetic Field Detected';
+            magneticFieldDetected = true;
+            startAnimation();
           });
         }
       });
@@ -142,9 +165,10 @@ class _TriangleState extends State<Triangle>
       showCompletedAnimation = true;
     });
     // Delay hiding animation after 10 seconds
-    Future.delayed(Duration(seconds: 10), () {
+    Future.delayed(Duration(seconds: 5), () {
       setState(() {
         showCompletedAnimation = false;
+        magneticFieldDetected = false;
       });
     });
   }
@@ -152,25 +176,6 @@ class _TriangleState extends State<Triangle>
   void _handleCheckButtonPressed() {
     // Start animation when the button is pressed
     startAnimation();
-
-    // Determine which animation to display based on the message
-    setState(() {
-      showCompletedAnimation = _message == 'Magnetic Field Detected';
-    });
-
-    // If the message is not "Magnetic Field Detected", display wrong.json
-    if (_message != 'Magnetic Field Detected') {
-      setState(() {
-        showCompletedAnimation = true;
-      });
-    }
-
-    // Delay hiding animation after 3 seconds
-    Future.delayed(Duration(seconds: 5), () {
-      setState(() {
-        showCompletedAnimation = false;
-      });
-    });
   }
 
   @override
@@ -197,15 +202,19 @@ class _TriangleState extends State<Triangle>
                           height: 310,
                         ),
                         SizedBox(height: 20),
-                        if (showCompletedAnimation)
+                        if (showCompletedAnimation && magneticFieldDetected)
                           Lottie.asset(
-                            _message != 'Magnetic Field Detected'
-                                ? 'assets/wrong.json'
-                                : 'assets/completed.json',
+                            'assets/completed.json',
                             width: 200,
                             height: 200,
                           ),
-                        Spacer(), // Added Spacer widget
+                        if (showCompletedAnimation && !magneticFieldDetected)
+                          Lottie.asset(
+                            'assets/wrong.json',
+                            width: 200,
+                            height: 200,
+                          ),
+                        Spacer(),
                         Align(
                           alignment: Alignment.bottomCenter,
                           child: Padding(
@@ -220,12 +229,11 @@ class _TriangleState extends State<Triangle>
                               style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        Colors.yellow), // Set background color
+                                        Colors.yellow),
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        20), // Button border radius
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
                               ),
@@ -238,8 +246,8 @@ class _TriangleState extends State<Triangle>
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black, // Text color
-                                    fontFamily: 'ProtestRiot', // Text font
+                                    color: Colors.black,
+                                    fontFamily: 'ProtestRiot',
                                   ),
                                 ),
                               ),
@@ -292,10 +300,4 @@ class LinearGradientTween extends Tween<Gradient> {
   @override
   Gradient lerp(double t) =>
       LinearGradient.lerp(begin as LinearGradient?, end as LinearGradient?, t)!;
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: Triangle(),
-  ));
 }

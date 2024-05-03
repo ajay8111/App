@@ -19,6 +19,7 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
   late Animation<Gradient> _animation;
 
   bool showCompletedAnimation = false; // Define showCompletedAnimation
+  bool magneticFieldDetected = false;
 
   // Initialize an instance of BService
   final BService bluetoothService = BService();
@@ -140,9 +141,8 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
         if (message == 'Magnetic Field Detected') {
           setState(() {
             _message = 'magnetic detected';
-            if (_message == 'magnetic detected') {
-              startAnimation();
-            }
+            magneticFieldDetected = true;
+            startAnimation();
           });
         }
       });
@@ -157,9 +157,8 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
         if (message == 'Magnetic Field Detected') {
           setState(() {
             _message = 'magnetic detected';
-            if (_message == 'magnetic detected') {
-              startAnimation();
-            }
+            magneticFieldDetected = true;
+            startAnimation();
           });
         }
       });
@@ -174,6 +173,7 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
     Future.delayed(Duration(seconds: 10), () {
       setState(() {
         showCompletedAnimation = false;
+        magneticFieldDetected = false;
       });
     });
   }
@@ -182,20 +182,8 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
     // Start animation when the button is pressed
     startAnimation();
 
-    // Determine which animation to display based on the message
-    setState(() {
-      showCompletedAnimation = _message == 'Magnetic Field Detected';
-    });
-
-    // If the message is not "Magnetic Field Detected", display wrong.json
-    if (_message != 'Magnetic Field Detected') {
-      setState(() {
-        showCompletedAnimation = true;
-      });
-    }
-
     // Delay hiding animation after 3 seconds
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(Duration(seconds: 3), () {
       setState(() {
         showCompletedAnimation = false;
       });
@@ -226,11 +214,15 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
                           height: 300,
                         ),
                         SizedBox(height: 20),
-                        if (showCompletedAnimation)
+                        if (showCompletedAnimation && magneticFieldDetected)
                           Lottie.asset(
-                            _message != 'magnetic detected'
-                                ? 'assets/wrong.json'
-                                : 'assets/completed.json',
+                            'assets/completed.json',
+                            width: 200,
+                            height: 200,
+                          ),
+                        if (showCompletedAnimation && !magneticFieldDetected)
+                          Lottie.asset(
+                            'assets/wrong.json',
                             width: 200,
                             height: 200,
                           ),
