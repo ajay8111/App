@@ -4,7 +4,11 @@ import 'package:flutter_application_1/square.dart';
 import 'package:flutter_application_1/triangle.dart';
 
 class Shapes extends StatelessWidget {
-  final List<String> shapes = ['Square', 'Rectangle', 'Triangle',];
+  final List<String> shapes = [
+    'Square',
+    'Rectangle',
+    'Cross',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +37,10 @@ class Shapes extends StatelessWidget {
             child: AppBar(
               title: Text(
                 'SHAPES',
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, fontFamily: 'ProtestRiot'),
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'ProtestRiot'),
               ),
               centerTitle: true,
               backgroundColor: Colors.transparent,
@@ -65,14 +72,14 @@ class ClickableList extends StatelessWidget {
           MaterialPageRoute(builder: (context) => Rectangle()),
         );
         break;
-      case 'Triangle':
+      case 'Cross':
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => Triangle()),
         );
 
-        break;    
-         default:
+        break;
+      default:
         print('Invalid shape: $shapeName');
     }
   }

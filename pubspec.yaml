@@ -126,6 +126,7 @@ flutter:
     - assets/square.png
     - assets/rectangle.png
     - assets/triangle.png
+    - assets/cross.png
     - assets/pentagon.png
     - assets/menubg.jpg
     - assets/house.png

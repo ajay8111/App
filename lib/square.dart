@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
 import 'bluetooth.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:lottie/lottie.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -208,8 +208,8 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Lottie.asset(
-                          'assets/square.json',
+                        Image.asset(
+                          'assets/square.png', // Use square.png instead of square.json
                           width: 300,
                           height: 300,
                         ),

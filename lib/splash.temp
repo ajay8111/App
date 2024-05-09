@@ -1,27 +1,189 @@
-class PageZ extends StatefulWidget {
-  @override
-  _PageZState createState() => _PageZState();
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'bluetooth.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+
+void main() {
+  runApp(MaterialApp(
+    home: Square(),
+  ));
 }
 
-class _PageZState extends State<PageZ> {
-  final List<Offset> tappedSquares = [];
-  bool showCompletedAnimation = false;
+class Square extends StatefulWidget {
+  @override
+  _SquareState createState() => _SquareState();
+}
 
-  void resetGrid() {
-    setState(() {
-      tappedSquares.clear();
-    });
+class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<Gradient> _animation;
+
+  bool showCompletedAnimation = false; // Define showCompletedAnimation
+  bool magneticFieldDetected = false;
+
+  // Initialize an instance of BService
+  final BService bluetoothService = BService();
+
+  // Bluetooth characteristics
+  late BluetoothCharacteristic characteristic;
+  late BluetoothCharacteristic notifyCharacteristic;
+
+  String _message = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 3),
+    )..repeat(reverse: true);
+
+    _animation = LinearGradientTween(
+      begin: LinearGradient(
+        colors: [
+          Color.fromARGB(255, 255, 255, 255),
+          Color.fromARGB(255, 218, 206, 206)
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ),
+      end: LinearGradient(
+        colors: [
+          Color.fromARGB(255, 79, 67, 236),
+          Color.fromARGB(255, 241, 243, 245)
+        ],
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+      ),
+    ).animate(_animationController);
+
+    // Check for connection status initially
+    checkConnectionStatus();
   }
 
-  void checkGrid() {
-    // Implement your logic for checking the grid here
-    print('Checking grid...');
-    // Show completed animation
+  // Function to check connection status and set the animation accordingly
+  void checkConnectionStatus() async {
+    try {
+      // Get the connected device
+      BluetoothDevice connectedDevice =
+          await bluetoothService.getConnectedDevice();
+      // If connected, set the isConnected flag to true
+      setState(() {
+        bluetoothService.isConnected = true;
+      });
+      _getServiceAndCharacteristic(connectedDevice);
+    } catch (e) {
+      // If not connected, show the pop-up message
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white, // Set background color
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0), // Set border radius
+            ),
+            title: Text(
+              "No Board Connected",
+              style: TextStyle(
+                color: Colors.blue,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'ProtestRiot', // Use ProtestRiot font
+              ),
+            ),
+            content: Text(
+              "Please connect with Board",
+              style: TextStyle(
+                fontSize: 16,
+                fontFamily: 'ProtestRiot', // Use ProtestRiot font
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  "OK",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'ProtestRiot', // Use ProtestRiot font
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+  void _getServiceAndCharacteristic(BluetoothDevice device) async {
+    List<BluetoothService> services = await device.discoverServices();
+    services.forEach((service) {
+      service.characteristics.forEach((char) {
+        if (char.uuid.toString() == '2a19') {
+          notifyCharacteristic = char;
+        }
+        if (char.uuid.toString() == '6e400003-b5a3-f393-e0a9-e50e24dcca9e') {
+          characteristic = char;
+          _listenCharacteristic();
+        }
+      });
+    });
+
+    // Set the notify characteristic to listen for magnetic field detection
+    if (notifyCharacteristic != null) {
+      await notifyCharacteristic.setNotifyValue(true);
+      notifyCharacteristic.value.listen((value) {
+        String message = String.fromCharCodes(value);
+        if (message == 'Magnetic Field Detected') {
+          setState(() {
+            _message = 'magnetic detected';
+            magneticFieldDetected = true;
+            startAnimation();
+          });
+        }
+      });
+    }
+  }
+
+  void _listenCharacteristic() {
+    Stream<List<int>> stream = characteristic.lastValueStream;
+    if (stream != null) {
+      stream.listen((value) {
+        String message = String.fromCharCodes(value);
+        if (message == 'Magnetic Field Detected') {
+          setState(() {
+            _message = 'magnetic detected';
+            magneticFieldDetected = true;
+            startAnimation();
+          });
+        }
+      });
+    }
+  }
+
+  void startAnimation() {
     setState(() {
       showCompletedAnimation = true;
     });
-    // Hide completed animation after 3 seconds
+    // Delay hiding animation after 10 seconds
     Future.delayed(Duration(seconds: 10), () {
+      setState(() {
+        showCompletedAnimation = false;
+        magneticFieldDetected = false;
+      });
+    });
+  }
+
+  void _handleCheckButtonPressed() {
+    // Start animation when the button is pressed
+    startAnimation();
+
+    // Delay hiding animation after 3 seconds
+    Future.delayed(Duration(seconds: 3), () {
       setState(() {
         showCompletedAnimation = false;
       });
@@ -31,158 +193,123 @@ class _PageZState extends State<PageZ> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return Stack(
-            children: [
-              // Gradient Blue Background
-              Container(
-                width: constraints.maxWidth,
-                height: constraints.maxHeight,
+      body: Stack(
+        children: [
+          AnimatedBuilder(
+            animation: _animationController,
+            builder: (context, child) {
+              return Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color.fromARGB(255, 125, 163, 208),
-                      Colors.blue.shade900
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
+                  gradient: _animation.value,
                 ),
-              ),
-              // Grid Background with Dark Blue Color
-              Container(
-                width: constraints.maxWidth,
-                height: constraints.maxHeight /
-                    2, // Adjusted height to cover only the bottom half
-                child: GestureDetector(
-                  onTapDown: (details) {
-                    setState(() {
-                      final RenderBox box =
-                          context.findRenderObject() as RenderBox;
-                      final Offset localOffset =
-                          box.globalToLocal(details.globalPosition);
-                      tappedSquares.add(localOffset);
-                    });
-                  },
-                  child: CustomPaint(
-                    painter: GridPainter(
-                        tappedSquares:
-                            tappedSquares), // Custom painter for drawing grid lines
-                  ),
-                ),
-              ),
-              // Positioned widget to place the A letter image on top screen
-              Positioned(
-                top: constraints.maxHeight * 0.4, // Adjust as needed
-                left: 0,
-                right: 0,
                 child: Center(
-                  child: Image.asset(
-                    'assets/Zletter.png', // Path to your A letter image
-                    width: constraints.maxWidth * 0.3, // Adjust size as needed
-                    height: constraints.maxHeight * 0.2,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 150),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Lottie.asset(
+                          'assets/square.json',
+                          width: 300,
+                          height: 300,
+                        ),
+                        SizedBox(height: 20),
+                        if (showCompletedAnimation && magneticFieldDetected)
+                          Lottie.asset(
+                            'assets/completed.json',
+                            width: 200,
+                            height: 200,
+                          ),
+                        if (showCompletedAnimation && !magneticFieldDetected)
+                          Lottie.asset(
+                            'assets/wrong.json',
+                            width: 200,
+                            height: 200,
+                          ),
+                        Spacer(),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20.0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                // Check connection status again when button is pressed
+                                checkConnectionStatus();
+                                // Handle button press here
+                                _handleCheckButtonPressed();
+                              },
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Colors.yellow),
+                                shape: MaterialStateProperty.all<
+                                    RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                              ),
+                              child: Container(
+                                width: 150,
+                                height: 50,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'CHECK',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontFamily: 'ProtestRiot',
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              // Check button
-              Positioned(
-                bottom: constraints.maxHeight * 0.1,
-                left: constraints.maxWidth * 0.3,
-                right: constraints.maxWidth * 0.3,
-                child: ElevatedButton(
-                  onPressed: checkGrid,
-                  child: Text('Check'),
+              );
+            },
+          ),
+          Positioned(
+            top: 10,
+            left: 0,
+            right: 0,
+            child: AppBar(
+              title: Text(
+                'SQUARE',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'ProtestRiot',
                 ),
               ),
-              // Reset button
-              Positioned(
-                bottom: constraints.maxHeight * 0.02,
-                left: constraints.maxWidth * 0.3,
-                right: constraints.maxWidth * 0.3,
-                child: ElevatedButton(
-                  onPressed: resetGrid,
-                  child: Text('Reset'),
-                ),
-              ),
-              // Completed Animation
-              if (showCompletedAnimation)
-                Positioned(
-                  bottom: constraints.maxHeight * 0.1,
-                  left: constraints.maxWidth * 0.2,
-                  right: constraints.maxWidth * 0.2,
-                  child: Lottie.asset(
-                    'assets/completed.json',
-                    width: constraints.maxWidth * 0.4,
-                    height: constraints.maxHeight * 0.4,
-                  ),
-                ),
-            ],
-          );
-        },
+              centerTitle: true,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
+          ),
+        ],
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 }
 
-class GridPainter26 extends CustomPainter {
-  final List<Offset> tappedSquares;
-
-  GridPainter26({required this.tappedSquares});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.blue.withOpacity(0.1) // Light blue color for grid lines
-      ..strokeWidth = 3;
-
-    final cellSize = cmToPixels(4);
-    final borderRadius = BorderRadius.circular(cellSize / 2);
-
-    // Draw vertical lines
-    for (double i = 0; i < size.width; i += cellSize) {
-      canvas.drawLine(
-          Offset(i, size.height / 2), Offset(i, size.height), paint);
-    }
-
-    // Draw horizontal lines only in the bottom half
-    for (double i = size.height / 2; i < size.height; i += cellSize) {
-      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
-    }
-
-    final yellowPaint = Paint()..color = Colors.yellowAccent;
-    final borderPaint = Paint()
-      ..color = Colors.black
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2; // Adjust border width as needed
-
-    for (final tappedSquare in tappedSquares) {
-      final xIndex = (tappedSquare.dx / cellSize).floor();
-      final yIndex = ((tappedSquare.dy - size.height / 2) / cellSize).floor();
-
-      final x = xIndex * cellSize;
-      final y = yIndex * cellSize + size.height / 2;
-
-      final roundedRect = RRect.fromRectAndRadius(
-        Rect.fromLTWH(x, y, cellSize, cellSize),
-        Radius.circular(
-            cellSize / 4), // Adjust the radius for desired roundness
-      );
-
-      // Draw yellow square
-      canvas.drawRRect(roundedRect, yellowPaint);
-
-      // Draw black border around the yellow square
-      canvas.drawRRect(roundedRect, borderPaint);
-    }
-  }
+class LinearGradientTween extends Tween<Gradient> {
+  LinearGradientTween({
+    required Gradient begin,
+    required Gradient end,
+  }) : super(begin: begin, end: end);
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true; // Always repaint to update the tapped squares
-  }
-
-  double cmToPixels(double cm) {
-    return cm * 11.3779528; // 1 cm = 11.3779528 pixels (approx.)
-  }
+  Gradient lerp(double t) =>
+      LinearGradient.lerp(begin as LinearGradient?, end as LinearGradient?, t)!;
 }

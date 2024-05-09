@@ -196,8 +196,8 @@ class _TriangleState extends State<Triangle>
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Lottie.asset(
-                          'assets/triangle.json',
+                        Image.asset(
+                          'assets/cross.png',
                           width: 310,
                           height: 310,
                         ),
@@ -267,7 +267,7 @@ class _TriangleState extends State<Triangle>
             right: 0,
             child: AppBar(
               title: Text(
-                'TRIANGLE',
+                'CROSS',
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,

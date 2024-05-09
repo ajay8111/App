@@ -196,8 +196,8 @@ class _RectangleState extends State<Rectangle>
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Lottie.asset(
-                          'assets/rectangle.json',
+                        Image.asset(
+                          'assets/rectangle.png',
                           width: 300,
                           height: 300,
                         ),
