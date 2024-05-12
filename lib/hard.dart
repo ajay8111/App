@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_application_1/monument.dart';
-
 
 class hard extends StatelessWidget {
   @override
@@ -18,36 +16,50 @@ class hard extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: 150,
-                height: 150,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromARGB(255, 0, 1, 15).withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 15,
-                      offset: Offset(0, 3),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    width: 150,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromARGB(255, 0, 1, 15).withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 15,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SparkSpirit()),
-                    );
-                  },
-                  child: Center(
-                    child: Image.asset(
-                      'assets/building.png',
-                      width: 100,
-                      height: 100,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SparkSpirit()),
+                        );
+                      },
+                      child: Center(
+                        child: Image.asset(
+                          'assets/building.png',
+                          width: 100,
+                          height: 100,
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  Positioned(
+                    top: 0,
+                    child: Image.asset(
+                      'assets/lock.png',
+                      width: 130,
+                      height: 130,
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: 20),
               GestureDetector(

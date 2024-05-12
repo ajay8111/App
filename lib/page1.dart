@@ -124,35 +124,49 @@ class Page1 extends StatelessWidget {
                         ),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.02),
-                        ElevatedButton(
-                          onPressed: () {
-                            _playSound();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => hard()),
-                            );
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                              Color.fromARGB(255, 39, 156, 240),
-                            ),
-                            padding: MaterialStateProperty.all(
-                              EdgeInsets.symmetric(
-                                horizontal:
-                                    MediaQuery.of(context).size.width * 0.1,
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                _playSound();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => hard()),
+                                );
+                              },
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                  Color.fromARGB(255, 39, 156, 240),
+                                ),
+                                padding: MaterialStateProperty.all(
+                                  EdgeInsets.symmetric(
+                                    horizontal:
+                                        MediaQuery.of(context).size.width * 0.1,
+                                  ),
+                                ),
+                              ),
+                              child: Text(
+                                'Hard',
+                                style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.07,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'ProtestRiot',
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
-                          ),
-                          child: Text(
-                            'Hard',
-                            style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width * 0.07,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'ProtestRiot',
-                              color: Colors.white,
+                            Positioned(
+                              right: 1,
+                              child: Icon(
+                                Icons.lock,
+                                color: Colors.white,
+                                size: 30,
+                              ),
                             ),
-                          ),
+                          ],
                         ),
                       ],
                     ),
@@ -252,7 +266,7 @@ class Page1 extends StatelessWidget {
           ),
         ),
         content: Text(
-          'Some section is still in development.Stay tuned for updates.',
+          'Some section is still in development. Stay tuned for updates.',
           style: TextStyle(
             color: Colors.white, // Set text color to white
             fontFamily: 'ProtestRiot', // Use a cartoonish font

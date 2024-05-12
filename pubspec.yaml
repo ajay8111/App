@@ -169,6 +169,8 @@ flutter:
     - assets/rectangle.json
     - assets/triangle.json
     - assets/wrong.json
+    - assets/lock.jpg
+    - assets/lock.png
     
         
 

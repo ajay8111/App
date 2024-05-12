@@ -30,7 +30,8 @@ class SparkSpirit extends StatelessWidget {
             crossAxisCount: 2,
             mainAxisSpacing: 16.0,
             crossAxisSpacing: 16.0,
-            children: iconData.map((data) => buildImage(context, data)).toList(),
+            children:
+                iconData.map((data) => buildImage(context, data)).toList(),
           ),
         ),
       ),
@@ -108,25 +109,25 @@ class SparkSpirit extends StatelessWidget {
           MaterialPageRoute(builder: (context) => ThunderPage()),
         );
         break;
-        case 'Car':
+      case 'Car':
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => CarPage()),
         );
         break;
-        case 'Bird':
+      case 'Bird':
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => BirdPage()),
         );
         break;
-        case 'Aeroplane':
+      case 'Aeroplane':
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => AeroPage()),
         );
         break;
-        case 'Umbrella':
+      case 'Umbrella':
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => UmbrellaPage()),
@@ -253,7 +254,8 @@ class HousePage extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'ProtestRiot',
                                   color: Colors.blue,
-                                  decoration: TextDecoration.none, // Remove underline
+                                  decoration:
+                                      TextDecoration.none, // Remove underline
                                 ),
                               ),
                               SizedBox(height: 10.0),
@@ -264,7 +266,8 @@ class HousePage extends StatelessWidget {
                                   fontFamily: 'ProtestRiot',
                                   fontSize: 20,
                                   color: Colors.black.withOpacity(0.8),
-                                  decoration: TextDecoration.none, // Remove underline
+                                  decoration:
+                                      TextDecoration.none, // Remove underline
                                 ),
                               ),
                               SizedBox(height: 10.0),
@@ -295,8 +298,6 @@ class HousePage extends StatelessWidget {
     );
   }
 }
-
-
 
 class HelicopterPage extends StatelessWidget {
   @override
@@ -411,7 +412,8 @@ class HelicopterPage extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'ProtestRiot',
                                   color: Color.fromARGB(255, 25, 212, 156),
-                                  decoration: TextDecoration.none, // Remove underline
+                                  decoration:
+                                      TextDecoration.none, // Remove underline
                                 ),
                               ),
                               SizedBox(height: 10.0),
@@ -422,7 +424,8 @@ class HelicopterPage extends StatelessWidget {
                                   fontFamily: 'ProtestRiot',
                                   fontSize: 20,
                                   color: Colors.black.withOpacity(0.8),
-                                  decoration: TextDecoration.none, // Remove underline
+                                  decoration:
+                                      TextDecoration.none, // Remove underline
                                 ),
                               ),
                               SizedBox(height: 10.0),
@@ -453,8 +456,6 @@ class HelicopterPage extends StatelessWidget {
     );
   }
 }
-
-
 
 class MountainPage extends StatelessWidget {
   @override
@@ -570,7 +571,8 @@ class MountainPage extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'ProtestRiot',
                                   color: Color.fromARGB(255, 230, 154, 47),
-                                  decoration: TextDecoration.none, // Remove underline
+                                  decoration:
+                                      TextDecoration.none, // Remove underline
                                 ),
                               ),
                               SizedBox(height: 10.0),
@@ -581,7 +583,8 @@ class MountainPage extends StatelessWidget {
                                   fontFamily: 'ProtestRiot',
                                   fontSize: 20,
                                   color: Colors.black.withOpacity(0.8),
-                                  decoration: TextDecoration.none, // Remove underline
+                                  decoration:
+                                      TextDecoration.none, // Remove underline
                                 ),
                               ),
                               SizedBox(height: 10.0),
@@ -669,7 +672,6 @@ class ThunderPage extends StatelessWidget {
                           'assets/thunder2.png', // Adjust the file path
                           width: 250,
                           height: 250,
-                          
                         ),
                       ],
                     ),
@@ -728,7 +730,8 @@ class ThunderPage extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'ProtestRiot',
                                   color: Color.fromARGB(255, 36, 103, 139),
-                                  decoration: TextDecoration.none, // Remove underline
+                                  decoration:
+                                      TextDecoration.none, // Remove underline
                                 ),
                               ),
                               SizedBox(height: 10.0),
@@ -739,7 +742,8 @@ class ThunderPage extends StatelessWidget {
                                   fontFamily: 'ProtestRiot',
                                   fontSize: 20,
                                   color: Colors.black.withOpacity(0.8),
-                                  decoration: TextDecoration.none, // Remove underline
+                                  decoration:
+                                      TextDecoration.none, // Remove underline
                                 ),
                               ),
                               SizedBox(height: 10.0),
@@ -785,7 +789,6 @@ class CarPage extends StatelessWidget {
               fontSize: 30,
               fontWeight: FontWeight.bold,
               fontFamily: 'ProtestRiot',
-              
             ),
           ),
           centerTitle: true,
@@ -827,7 +830,6 @@ class CarPage extends StatelessWidget {
                           'assets/car2.png', // Adjust the file path
                           width: 230,
                           height: 230,
-                          
                         ),
                       ],
                     ),
@@ -849,7 +851,6 @@ class CarPage extends StatelessWidget {
               IconButton(
                 icon: Icon(
                   Icons.info,
-                  
                 ),
                 iconSize: 40.0,
                 onPressed: () {
@@ -886,7 +887,8 @@ class CarPage extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'ProtestRiot',
                                   color: Color.fromARGB(255, 15, 197, 57),
-                                  decoration: TextDecoration.none, // Remove underline
+                                  decoration:
+                                      TextDecoration.none, // Remove underline
                                 ),
                               ),
                               SizedBox(height: 10.0),
@@ -897,7 +899,8 @@ class CarPage extends StatelessWidget {
                                   fontFamily: 'ProtestRiot',
                                   fontSize: 20,
                                   color: Colors.black.withOpacity(0.8),
-                                  decoration: TextDecoration.none, // Remove underline
+                                  decoration:
+                                      TextDecoration.none, // Remove underline
                                 ),
                               ),
                               SizedBox(height: 10.0),
@@ -943,7 +946,6 @@ class BirdPage extends StatelessWidget {
               fontSize: 30,
               fontWeight: FontWeight.bold,
               fontFamily: 'ProtestRiot',
-              
             ),
           ),
           centerTitle: true,
@@ -985,7 +987,6 @@ class BirdPage extends StatelessWidget {
                           'assets/bird2.png', // Adjust the file path
                           width: 230,
                           height: 230,
-                          
                         ),
                       ],
                     ),
@@ -1007,7 +1008,6 @@ class BirdPage extends StatelessWidget {
               IconButton(
                 icon: Icon(
                   Icons.info,
-                  
                 ),
                 iconSize: 40.0,
                 onPressed: () {
@@ -1044,7 +1044,8 @@ class BirdPage extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'ProtestRiot',
                                   color: Color.fromARGB(177, 193, 113, 32),
-                                  decoration: TextDecoration.none, // Remove underline
+                                  decoration:
+                                      TextDecoration.none, // Remove underline
                                 ),
                               ),
                               SizedBox(height: 10.0),
@@ -1055,7 +1056,8 @@ class BirdPage extends StatelessWidget {
                                   fontFamily: 'ProtestRiot',
                                   fontSize: 20,
                                   color: Colors.black.withOpacity(0.8),
-                                  decoration: TextDecoration.none, // Remove underline
+                                  decoration:
+                                      TextDecoration.none, // Remove underline
                                 ),
                               ),
                               SizedBox(height: 10.0),
@@ -1087,7 +1089,6 @@ class BirdPage extends StatelessWidget {
   }
 }
 
-
 class AeroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -1102,7 +1103,6 @@ class AeroPage extends StatelessWidget {
               fontSize: 30,
               fontWeight: FontWeight.bold,
               fontFamily: 'ProtestRiot',
-              
             ),
           ),
           centerTitle: true,
@@ -1144,7 +1144,6 @@ class AeroPage extends StatelessWidget {
                           'assets/airplane2.png', // Adjust the file path
                           width: 230,
                           height: 230,
-                          
                         ),
                       ],
                     ),
@@ -1166,7 +1165,6 @@ class AeroPage extends StatelessWidget {
               IconButton(
                 icon: Icon(
                   Icons.info,
-                  
                 ),
                 iconSize: 40.0,
                 onPressed: () {
@@ -1203,7 +1201,8 @@ class AeroPage extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'ProtestRiot',
                                   color: Color.fromARGB(123, 32, 86, 193),
-                                  decoration: TextDecoration.none, // Remove underline
+                                  decoration:
+                                      TextDecoration.none, // Remove underline
                                 ),
                               ),
                               SizedBox(height: 10.0),
@@ -1214,7 +1213,8 @@ class AeroPage extends StatelessWidget {
                                   fontFamily: 'ProtestRiot',
                                   fontSize: 20,
                                   color: Colors.black.withOpacity(0.8),
-                                  decoration: TextDecoration.none, // Remove underline
+                                  decoration:
+                                      TextDecoration.none, // Remove underline
                                 ),
                               ),
                               SizedBox(height: 10.0),
@@ -1245,6 +1245,7 @@ class AeroPage extends StatelessWidget {
     );
   }
 }
+
 class UmbrellaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -1259,7 +1260,6 @@ class UmbrellaPage extends StatelessWidget {
               fontSize: 30,
               fontWeight: FontWeight.bold,
               fontFamily: 'ProtestRiot',
-              
             ),
           ),
           centerTitle: true,
@@ -1301,7 +1301,6 @@ class UmbrellaPage extends StatelessWidget {
                           'assets/umberlla2.png', // Adjust the file path
                           width: 230,
                           height: 230,
-                          
                         ),
                       ],
                     ),
@@ -1323,7 +1322,6 @@ class UmbrellaPage extends StatelessWidget {
               IconButton(
                 icon: Icon(
                   Icons.info,
-                  
                 ),
                 iconSize: 40.0,
                 onPressed: () {
@@ -1360,7 +1358,8 @@ class UmbrellaPage extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'ProtestRiot',
                                   color: Color.fromARGB(142, 193, 32, 102),
-                                  decoration: TextDecoration.none, // Remove underline
+                                  decoration:
+                                      TextDecoration.none, // Remove underline
                                 ),
                               ),
                               SizedBox(height: 10.0),
@@ -1371,7 +1370,8 @@ class UmbrellaPage extends StatelessWidget {
                                   fontFamily: 'ProtestRiot',
                                   fontSize: 20,
                                   color: Colors.black.withOpacity(0.8),
-                                  decoration: TextDecoration.none, // Remove underline
+                                  decoration:
+                                      TextDecoration.none, // Remove underline
                                 ),
                               ),
                               SizedBox(height: 10.0),
