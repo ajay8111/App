@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Recevie.dart';
+import 'package:flutter_application_1/connect_device.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter_application_1/page1.dart';
 import 'bluetooth.dart';
@@ -76,8 +76,7 @@ class Menu extends StatelessWidget {
                           playSound('assets/click.mp3');
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) => ReceiveData()),
+                            MaterialPageRoute(builder: (context) => BPage()),
                           );
                         },
                         child: Text(

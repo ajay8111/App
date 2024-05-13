@@ -171,6 +171,9 @@ flutter:
     - assets/wrong.json
     - assets/lock.jpg
     - assets/lock.png
+    - assets/hammer.png
+    - assets/stairs.png
+    - assets/opposit.png
     
         
 

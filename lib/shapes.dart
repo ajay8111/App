@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/hammer.dart';
+import 'package:flutter_application_1/opposit.dart';
 import 'package:flutter_application_1/rectangle.dart';
 import 'package:flutter_application_1/square.dart';
+import 'package:flutter_application_1/stairs.dart';
 import 'package:flutter_application_1/triangle.dart';
 
 class Shapes extends StatelessWidget {
@@ -8,6 +11,9 @@ class Shapes extends StatelessWidget {
     'Square',
     'Rectangle',
     'Cross',
+    'Hammer',
+    'Stairs',
+    'Opposit'
   ];
 
   @override
@@ -77,8 +83,26 @@ class ClickableList extends StatelessWidget {
           context,
           MaterialPageRoute(builder: (context) => Triangle()),
         );
-
         break;
+      case 'Hammer':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Hammer()),
+        );
+        break;
+      case 'Stairs':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Stairs()),
+        );
+        break;
+      case 'Opposit':
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Opposit()),
+        );
+        break;
+
       default:
         print('Invalid shape: $shapeName');
     }
