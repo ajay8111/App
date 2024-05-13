@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Recevie.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter_application_1/page1.dart';
-import 'package:flutter_application_1/connect_device.dart';
 import 'bluetooth.dart';
 
 class Menu extends StatelessWidget {
@@ -79,26 +78,6 @@ class Menu extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => ReceiveData()),
-                          );
-                        },
-                        child: Text(
-                          'Test Page',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 188, 169, 24),
-                            fontSize: MediaQuery.of(context).size.width * 0.1,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'ProtestRiot',
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 30.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          playSound('assets/click.mp3');
-                          // Navigate to LoginScreen when "Quiz Game" button is pressed
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => BPage()),
                           );
                         },
                         child: Text(
