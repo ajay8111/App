@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:lottie/lottie.dart';
 
 class Alphabet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Show a pop-up message indicating it's a touch game
+    WidgetsBinding.instance!
+        .addPostFrameCallback((_) => showAlertDialog(context));
+
     return Scaffold(
       body: Stack(
         children: [
@@ -33,6 +38,64 @@ class Alphabet extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void showAlertDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, setState) {
+            return AnimatedOpacity(
+              opacity: 1.0,
+              duration:
+                  Duration(milliseconds: 1000), // Adjust the duration as needed
+              curve: Curves.easeIn, // Adjust the curve as needed
+              child: AlertDialog(
+                backgroundColor:
+                    Color.fromARGB(255, 51, 100, 141), // Set background color
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(20.0), // Set border radius
+                ),
+                title: Text(
+                  "Notification",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'ProtestRiot', // Use ProtestRiot font
+                  ),
+                ),
+                content: Text(
+                  "This is a touch game. Tap on any letter to continue.",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontFamily: 'ProtestRiot', // Use ProtestRiot font
+                  ),
+                ),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      "OK",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontFamily: 'ProtestRiot', // Use ProtestRiot font
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 
