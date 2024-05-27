@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'bluetooth.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:lottie/lottie.dart';
+import 'package:just_audio/just_audio.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -17,9 +18,11 @@ class Square extends StatefulWidget {
 class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<Gradient> _animation;
+  late AudioPlayer _audioPlayer;
 
-  bool showCompletedAnimation = false; // Define showCompletedAnimation
+  bool showCompletedAnimation = false;
   bool magneticFieldDetected = false;
+  bool audioPlayed = false; // Add a flag to track if the audio has been played
 
   // Initialize an instance of BService
   final BService bluetoothService = BService();
@@ -58,8 +61,17 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
       ),
     ).animate(_animationController);
 
+    _audioPlayer = AudioPlayer();
+
     // Check for connection status initially
     checkConnectionStatus();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _audioPlayer.dispose();
+    super.dispose();
   }
 
   // Function to check connection status and set the animation accordingly
@@ -169,11 +181,23 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
     setState(() {
       showCompletedAnimation = true;
     });
+
+    if (magneticFieldDetected && !audioPlayed) {
+      _audioPlayer.setAsset('assets/square.mp3').then((_) {
+        _audioPlayer.play();
+        setState(() {
+          audioPlayed = true;
+        });
+      });
+    }
+
     // Delay hiding animation after 10 seconds
     Future.delayed(Duration(seconds: 10), () {
       setState(() {
         showCompletedAnimation = false;
         magneticFieldDetected = false;
+        audioPlayed =
+            false; // Reset the flag to allow playing the audio again in the future
       });
     });
   }
@@ -294,12 +318,6 @@ class _SquareState extends State<Square> with SingleTickerProviderStateMixin {
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
   }
 }
 

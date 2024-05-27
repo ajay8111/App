@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'bluetooth.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:just_audio/just_audio.dart';
 
 class Opposit extends StatefulWidget {
   @override
@@ -11,9 +12,11 @@ class Opposit extends StatefulWidget {
 class _OppositState extends State<Opposit> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<Gradient> _animation;
+  late AudioPlayer _audioPlayer;
 
   bool showCompletedAnimation = false; // Define showCompletedAnimation
   bool magneticFieldDetected = false;
+  bool audioPlayed = false;
 
   // Initialize an instance of BService
   final BService bluetoothService = BService();
@@ -51,6 +54,8 @@ class _OppositState extends State<Opposit> with SingleTickerProviderStateMixin {
         end: Alignment.bottomCenter,
       ),
     ).animate(_animationController);
+
+    _audioPlayer = AudioPlayer();
 
     // Check for connection status initially
     checkConnectionStatus();
@@ -163,6 +168,15 @@ class _OppositState extends State<Opposit> with SingleTickerProviderStateMixin {
     setState(() {
       showCompletedAnimation = true;
     });
+
+    if (magneticFieldDetected && !audioPlayed) {
+      _audioPlayer.setAsset('assets/square.mp3').then((_) {
+        _audioPlayer.play();
+        setState(() {
+          audioPlayed = true;
+        });
+      });
+    }
     // Delay hiding animation after 10 seconds
     Future.delayed(Duration(seconds: 5), () {
       setState(() {

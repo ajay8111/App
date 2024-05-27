@@ -40,7 +40,7 @@ dependencies:
   just_audio: ^0.9.36
   shared_preferences: ^2.2.3
   provider: ^6.1.2
-  audioplayers: ^0.20.1
+  
   
   
 

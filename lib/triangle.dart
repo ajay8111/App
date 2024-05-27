@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'bluetooth.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:just_audio/just_audio.dart'; // Add just_audio package
 
 class Triangle extends StatefulWidget {
   @override
@@ -12,9 +13,11 @@ class _TriangleState extends State<Triangle>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<Gradient> _animation;
+  late AudioPlayer _audioPlayer; // Add audio player
 
   bool showCompletedAnimation = false; // Define showCompletedAnimation
   bool magneticFieldDetected = false;
+  bool audioPlayed = false; // Add a flag to track if the audio has been played
 
   // Initialize an instance of BService
   final BService bluetoothService = BService();
@@ -53,8 +56,17 @@ class _TriangleState extends State<Triangle>
       ),
     ).animate(_animationController);
 
+    _audioPlayer = AudioPlayer(); // Initialize audio player
+
     // Check for connection status initially
     checkConnectionStatus();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    _audioPlayer.dispose(); // Dispose of the audio player
+    super.dispose();
   }
 
   // Function to check connection status and set the animation accordingly
@@ -164,11 +176,23 @@ class _TriangleState extends State<Triangle>
     setState(() {
       showCompletedAnimation = true;
     });
-    // Delay hiding animation after 10 seconds
+
+    if (magneticFieldDetected && !audioPlayed) {
+      _audioPlayer.setAsset('assets/square.mp3').then((_) {
+        _audioPlayer.play();
+        setState(() {
+          audioPlayed = true;
+        });
+      });
+    }
+
+    // Delay hiding animation after 5 seconds
     Future.delayed(Duration(seconds: 5), () {
       setState(() {
         showCompletedAnimation = false;
         magneticFieldDetected = false;
+        audioPlayed =
+            false; // Reset the flag to allow playing the audio again in the future
       });
     });
   }
@@ -282,12 +306,6 @@ class _TriangleState extends State<Triangle>
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
   }
 }
 
