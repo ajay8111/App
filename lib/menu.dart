@@ -23,7 +23,7 @@ class Menu extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(50.0),
               child: Text(
-                'MindSpark',
+                'MINDSPARK',
                 style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
