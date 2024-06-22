@@ -11,7 +11,6 @@ class Shapes extends StatelessWidget {
     'Square',
     'Rectangle',
     'Cross',
-    'Hammer',
     'Stairs',
     'Opposit'
   ];

@@ -169,7 +169,7 @@ class _StairsState extends State<Stairs> with SingleTickerProviderStateMixin {
     });
 
     if (magneticFieldDetected && !audioPlayed) {
-      _audioPlayer.setAsset('assets/square.mp3').then((_) {
+      _audioPlayer.setAsset('assets/stairs.mp3').then((_) {
         _audioPlayer.play();
         setState(() {
           audioPlayed = true;

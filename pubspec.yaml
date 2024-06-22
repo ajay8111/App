@@ -176,6 +176,11 @@ flutter:
     - assets/stairs.png
     - assets/opposit.png
     - assets/square.mp3
+    - assets/rectangle.mp3
+    - assets/cross.mp3
+    - assets/hammer.mp3
+    - assets/stairs.mp3
+    - assets/opposite.mp3
     
         
 

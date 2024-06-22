@@ -169,7 +169,7 @@ class _HammerState extends State<Hammer> with SingleTickerProviderStateMixin {
       showCompletedAnimation = true;
     });
     if (magneticFieldDetected && !audioPlayed) {
-      _audioPlayer.setAsset('assets/square.mp3').then((_) {
+      _audioPlayer.setAsset('assets/hammer.mp3').then((_) {
         _audioPlayer.play();
         setState(() {
           audioPlayed = true;

@@ -178,7 +178,7 @@ class _TriangleState extends State<Triangle>
     });
 
     if (magneticFieldDetected && !audioPlayed) {
-      _audioPlayer.setAsset('assets/square.mp3').then((_) {
+      _audioPlayer.setAsset('assets/cross.mp3').then((_) {
         _audioPlayer.play();
         setState(() {
           audioPlayed = true;

@@ -170,7 +170,7 @@ class _OppositState extends State<Opposit> with SingleTickerProviderStateMixin {
     });
 
     if (magneticFieldDetected && !audioPlayed) {
-      _audioPlayer.setAsset('assets/square.mp3').then((_) {
+      _audioPlayer.setAsset('assets/opposite.mp3').then((_) {
         _audioPlayer.play();
         setState(() {
           audioPlayed = true;
